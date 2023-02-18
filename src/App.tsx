@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { fetchFromApi } from './api/api'
+import NavBar from './components/NavBar'
 
 const App = () => {
   const [products, setProducts] = useState([])
@@ -20,6 +21,12 @@ const App = () => {
     fetchAllCategories()
   }, [])
 
-  return <div>App</div>
+  return (
+    <div className='relative min-h-screen overflow-hidden'>
+      <header className='h-20'>
+        <NavBar />
+      </header>
+    </div>
+  )
 }
 export default App
