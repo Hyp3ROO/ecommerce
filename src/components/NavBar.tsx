@@ -61,7 +61,7 @@ const NavBar = () => {
       </nav>
 
       {/* Desktop NavBar */}
-      <nav className='fixed inset-y-0 inset-x-12 hidden h-20 items-center justify-between bg-white/60 backdrop-blur-sm md:flex'>
+      <nav className='fixed inset-y-0 inset-x-12 z-10 hidden h-20 items-center justify-between bg-white/60 backdrop-blur-sm md:flex'>
         <h1 className='text-lg font-bold md:text-2xl'>E-COM</h1>
         <ul className='flex items-center justify-center gap-4'>
           <li>
