@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react'
 import { fetchFromApi } from './api/api'
 import NavBar from './components/NavBar'
-import ProductsList from './components/ProductsList'
+import AllProductsList from './components/AllProductsList'
+import { Route, Routes } from 'react-router-dom'
+import SignInPage from './pages/SignInPage'
 
 const App = () => {
   const [products, setProducts] = useState([])
@@ -27,9 +29,17 @@ const App = () => {
       <header className='h-20'>
         <NavBar />
       </header>
-      <main className='p-12'>
-        <ProductsList products={products} />
-      </main>
+      <Routes>
+        <Route
+          path='/'
+          element={
+            <main className='p-12'>
+              <AllProductsList products={products} />
+            </main>
+          }
+        />
+        <Route path='/sign-in' element={<SignInPage />} />
+      </Routes>
     </div>
   )
 }
