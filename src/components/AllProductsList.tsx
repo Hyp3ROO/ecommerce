@@ -1,4 +1,5 @@
 import ProductCard from './ProductCard'
+import ReactLoading from 'react-loading'
 
 type ProductsProps = {
   id: number
@@ -26,8 +27,18 @@ const ProductsList = ({ products }: any) => {
         </h2>
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
       </div>
-      <div className='grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-12'>
-        {renderedProducts}
+      <div className='relative grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-12'>
+        {products.length > 0 ? (
+          renderedProducts
+        ) : (
+          <ReactLoading
+            type='bars'
+            width={'20%'}
+            height={'20%'}
+            color='rgb(59 130 246)'
+            className='absolute top-10 left-[50%] -translate-x-1/2'
+          />
+        )}
       </div>
     </>
   )
