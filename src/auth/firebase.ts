@@ -3,15 +3,14 @@ import { initializeApp } from 'firebase/app'
 import { getAuth } from 'firebase/auth'
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
-
 // Your web app's Firebase configuration
 const firebaseConfig = {
-  apiKey: 'AIzaSyD_UXxygYWruUuZoJbHtJcg9gOOpxtVTYc',
-  authDomain: 'ecommerce-3935c.firebaseapp.com',
-  projectId: 'ecommerce-3935c',
-  storageBucket: 'ecommerce-3935c.appspot.com',
-  messagingSenderId: '178803925080',
-  appId: '1:178803925080:web:6343b8aa3f86125f4fea2d',
+  apiKey: import.meta.env.VITE_SOME_API_KEY,
+  authDomain: import.meta.env.VITE_SOME_AUTH_DOMAIN,
+  projectId: import.meta.env.VITE_SOME_PROJECT_ID,
+  storageBucket: import.meta.env.VITE_SOME_STORAGE_BUCKET,
+  messagingSenderId: import.meta.env.VITE_SOME_MESSAGING_SENDER_ID,
+  appId: import.meta.env.VITE_SOME_APP_ID,
 }
 
 // Initialize Firebase
