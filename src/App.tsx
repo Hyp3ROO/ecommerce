@@ -4,6 +4,7 @@ import NavBar from './components/NavBar'
 import AllProductsList from './components/AllProductsList'
 import { Route, Routes } from 'react-router-dom'
 import SignInPage from './pages/SignInPage'
+import SignUpPage from './pages/SignUpPage'
 
 const App = () => {
   const [products, setProducts] = useState([])
@@ -41,6 +42,7 @@ const App = () => {
           }
         />
         <Route path='/sign-in' element={<SignInPage />} />
+        <Route path='/sign-up' element={<SignUpPage />} />
       </Routes>
     </div>
   )
