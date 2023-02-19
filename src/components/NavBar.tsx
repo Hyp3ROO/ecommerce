@@ -21,7 +21,7 @@ const NavBar = () => {
   return (
     <>
       {/* Mobile NavBar */}
-      <nav className='fixed inset-y-0 inset-x-12 flex h-20 items-center justify-between bg-white/60 backdrop-blur-sm md:hidden'>
+      <nav className='fixed inset-y-0 inset-x-12 z-10 flex h-20 items-center justify-between bg-white/60 backdrop-blur-sm md:hidden'>
         <h1 className='text-lg font-bold'>E-COM</h1>
         <div className='z-10'>
           <Hamburger duration={0.2} toggled={isOpen} toggle={setIsOpen} />
@@ -29,7 +29,7 @@ const NavBar = () => {
         <ul
           className={`${
             isOpen ? 'fixed' : 'hidden'
-          } inset-0 flex min-h-screen flex-col items-center justify-around bg-white/80 backdrop-blur-sm`}>
+          } inset-0 flex min-h-screen flex-col items-center justify-evenly bg-white/80 backdrop-blur-sm`}>
           <Link to='/'>
             <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
               <AiFillHome className='mr-3 text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700' />
