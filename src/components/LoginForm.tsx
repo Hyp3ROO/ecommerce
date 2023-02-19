@@ -1,10 +1,10 @@
 import { useState } from 'react'
-import { createUser } from '../auth/auth'
+import { createUser, signInUser } from '../auth/auth'
 import { IoMdMail, IoMdClose } from 'react-icons/io'
 import { AiFillLock } from 'react-icons/ai'
 import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth'
 import { auth } from '../auth/firebase'
-import { Link, Navigate } from 'react-router-dom'
+import { Link, Navigate, useLocation } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 type FormProps = {
@@ -19,6 +19,7 @@ type FormProps = {
 }
 
 const LoginForm = ({ formProps }: FormProps) => {
+  const location = useLocation()
   const [user] = useAuthState(auth)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -45,7 +46,11 @@ const LoginForm = ({ formProps }: FormProps) => {
       setPasswordError('')
     }
     if (emailRegExp.test(email) && password.length >= 6)
-      createUser(email, password)
+      if (location.pathname === '/sign-up') {
+        createUser(email, password)
+      } else if (location.pathname === '/sign-in') {
+        signInUser(email, password)
+      }
   }
 
   const googleSignIn = () => {
