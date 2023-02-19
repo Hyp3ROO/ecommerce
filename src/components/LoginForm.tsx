@@ -12,6 +12,7 @@ type FormProps = {
     title: string
     btnText: string
     googleBtnText: string
+    text: string
     linkText: string
     link: string
   }
@@ -113,7 +114,7 @@ const LoginForm = ({ formProps }: FormProps) => {
         {formProps.googleBtnText}
       </button>
       <p className='my-6 text-sm'>
-        Or if you already have an account{' '}
+        {formProps.text}{' '}
         <Link
           to={formProps.link}
           className='text-blue-500 duration-200 hover:text-blue-800'>

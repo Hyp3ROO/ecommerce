@@ -5,6 +5,7 @@ const SignUpPage = () => {
     title: 'Sign Up With Email And Password',
     btnText: 'Sign Up',
     googleBtnText: 'Sign Up with Google',
+    text: 'Or if you already have an account',
     linkText: 'Sign In Here',
     link: '/sign-in',
   }
