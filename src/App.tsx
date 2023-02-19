@@ -26,16 +26,18 @@ const App = () => {
 
   return (
     <div className='relative min-h-screen overflow-hidden'>
-      <header className='h-20'>
-        <NavBar />
-      </header>
       <Routes>
         <Route
           path='/'
           element={
-            <main className='p-12'>
-              <AllProductsList products={products} />
-            </main>
+            <>
+              <header className='h-20'>
+                <NavBar />
+              </header>
+              <main className='p-12'>
+                <AllProductsList products={products} />
+              </main>
+            </>
           }
         />
         <Route path='/sign-in' element={<SignInPage />} />
