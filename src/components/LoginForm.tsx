@@ -60,14 +60,14 @@ const LoginForm = ({ formProps }: FormProps) => {
 
   return (
     <div className='z-15 fixed inset-0 flex flex-col items-center justify-center bg-gray-900 text-center text-white'>
+      <Link to='/'>
+        <button className='group absolute right-5 top-5'>
+          <IoMdClose className='text-3xl duration-200 group-hover:text-blue-500' />
+        </button>
+      </Link>
       <form
         className='flex flex-col items-center justify-center gap-3'
         onSubmit={e => handleSubmit(e)}>
-        <Link to='/'>
-          <button className='group absolute right-5 top-5'>
-            <IoMdClose className='text-3xl duration-200 group-hover:text-blue-500' />
-          </button>
-        </Link>
         <h3 className='mb-3 text-2xl font-bold md:mb-10'>{formProps.title}</h3>
         <label>Email</label>
         <div className='relative'>
