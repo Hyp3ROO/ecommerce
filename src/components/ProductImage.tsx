@@ -2,8 +2,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component'
 import 'react-lazy-load-image-component/src/effects/blur.css'
 import ReactLoading from 'react-loading'
 
-const ProductImage = ({ image, alt }: any) => {
-  console.log(image, alt)
+const ProductImage = ({ image, alt, ...rest }: any) => {
   return (
     <div className='relative'>
       <LazyLoadImage
@@ -19,7 +18,7 @@ const ProductImage = ({ image, alt }: any) => {
             className='absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2'
           />
         )}
-        className='h-[20rem] object-contain'
+        {...rest}
       />
     </div>
   )
