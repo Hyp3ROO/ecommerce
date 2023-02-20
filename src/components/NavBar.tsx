@@ -36,10 +36,12 @@ const NavBar = () => {
               Home
             </li>
           </Link>
-          <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
-            <BsBasket3Fill className='mr-3 text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
-            Basket
-          </li>
+          <Link to='/cart'>
+            <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
+              <BsBasket3Fill className='mr-3 text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
+              Cart
+            </li>
+          </Link>
           {!user ? (
             <li>
               <Link to='/sign-in'>
@@ -65,14 +67,18 @@ const NavBar = () => {
         <h1 className='text-lg font-bold md:text-2xl'>E-COM</h1>
         <ul className='flex items-center justify-center gap-4'>
           <li>
-            <button className='group p-2'>
-              <AiFillHome className='text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
-            </button>
+            <Link to='/'>
+              <button className='group p-2'>
+                <AiFillHome className='text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
+              </button>
+            </Link>
           </li>
           <li>
-            <button className='group p-2'>
-              <BsBasket3Fill className='text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
-            </button>
+            <Link to='/cart'>
+              <button className='group p-2'>
+                <BsBasket3Fill className='text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
+              </button>
+            </Link>
           </li>
           {!user ? (
             <li>
