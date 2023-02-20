@@ -30,13 +30,13 @@ const NavBar = () => {
           className={`${
             isOpen ? 'fixed' : 'hidden'
           } inset-0 flex min-h-screen flex-col items-center justify-evenly bg-white/80 backdrop-blur-sm`}>
-          <Link to='/'>
+          <Link to='/' onClick={() => setIsOpen(false)}>
             <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
               <AiFillHome className='mr-3 text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700' />
               Home
             </li>
           </Link>
-          <Link to='/cart'>
+          <Link to='/cart' onClick={() => setIsOpen(false)}>
             <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
               <BsBasket3Fill className='mr-3 text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
               Cart
