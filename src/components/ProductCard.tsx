@@ -1,3 +1,5 @@
+import ProductImage from './ProductImage'
+
 type ProductProps = {
   product: {
     id: number
@@ -16,12 +18,7 @@ type ProductProps = {
 const ProductCard = ({ product }: ProductProps) => {
   return (
     <div className='flex flex-col items-center justify-center py-6'>
-      <img
-        className='h-[20rem] object-contain'
-        src={product?.image}
-        alt={product?.title}
-        loading='lazy'
-      />
+      <ProductImage image={product?.image} alt={product?.title} />
       <div className='flex flex-col items-center text-center'>
         <h3 className='my-4 font-bold'>{product?.title}</h3>
         <p className='my-2 font-bold'>{`${product?.price}$`}</p>
