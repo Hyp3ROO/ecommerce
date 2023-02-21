@@ -1,22 +1,19 @@
 import ProductCard from './ProductCard'
 import ReactLoading from 'react-loading'
+import { Product } from '../types/Product'
 
 type ProductsProps = {
-  id: number
-  title: string
-  category: string
-  description: string
-  image: string
-  price: number
-  rating: {
-    count: number
-    rate: number
-  }
+  products: Product[]
+  addProductToCart: (product: Product) => void
 }
 
-const ProductsList = ({ products }: any) => {
-  const renderedProducts = products?.map((product: ProductsProps) => (
-    <ProductCard key={product.id} product={product} />
+const ProductsList = ({ products, addProductToCart }: ProductsProps) => {
+  const renderedProducts = products?.map((product: Product) => (
+    <ProductCard
+      key={product.id}
+      product={product}
+      addProductToCart={addProductToCart}
+    />
   ))
 
   return (
