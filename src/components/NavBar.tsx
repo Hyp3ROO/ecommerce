@@ -6,8 +6,13 @@ import Hamburger from 'hamburger-react'
 import { auth } from '../auth/firebase'
 import { signOutUser } from '../auth/auth'
 import { Link } from 'react-router-dom'
+import { Product } from '../types/Product'
 
-const NavBar = () => {
+type NavBarProps = {
+  cartItems: Product[]
+}
+
+const NavBar = ({ cartItems }: NavBarProps) => {
   const [user] = useAuthState(auth)
   const [isOpen, setIsOpen] = useState(false)
 
@@ -37,9 +42,16 @@ const NavBar = () => {
             </li>
           </Link>
           <Link to='/cart' onClick={() => setIsOpen(false)}>
-            <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
+            <li className='group relative flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
               <BsBasket3Fill className='mr-3 text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
               Cart
+              {cartItems.length > 0 ? (
+                <span className='absolute top-0.5 -right-1 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm text-black duration-200 group-hover:scale-110'>
+                  {cartItems.length}
+                </span>
+              ) : (
+                ''
+              )}
             </li>
           </Link>
           {!user ? (
@@ -75,8 +87,15 @@ const NavBar = () => {
           </li>
           <li>
             <Link to='/cart'>
-              <button className='group p-2'>
+              <button className='group relative p-2'>
                 <BsBasket3Fill className='text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
+                {cartItems.length > 0 ? (
+                  <span className='absolute -top-1 -right-2 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm duration-200 group-hover:scale-110'>
+                    {cartItems.length}
+                  </span>
+                ) : (
+                  ''
+                )}
               </button>
             </Link>
           </li>
