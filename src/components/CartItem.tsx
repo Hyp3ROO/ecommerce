@@ -2,6 +2,7 @@ import { Product } from '../types/Product'
 import { BsFillTrashFill } from 'react-icons/bs'
 import ProductImage from './ProductImage'
 import toast from 'react-hot-toast'
+import { MdOutlineGppBad } from 'react-icons/md'
 
 type CartItemProps = {
   cartItem: Product
@@ -10,9 +11,7 @@ type CartItemProps = {
 
 const notify = () =>
   toast('Deleted item from cart', {
-    style: {
-      fontStyle: 'bold',
-    },
+    icon: <MdOutlineGppBad className='h-5 w-5 text-red-800' />,
   })
 
 const CartItem = ({ cartItem, deleteProductFromCart }: CartItemProps) => {

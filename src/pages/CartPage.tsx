@@ -1,6 +1,5 @@
 import { Product } from '../types/Product'
 import CartItem from '../components/CartItem'
-import { Toaster } from 'react-hot-toast'
 
 type CartPageProps = {
   cartItems: Product[]
@@ -33,14 +32,6 @@ const CartPage = ({ cartItems, deleteProductFromCart }: CartPageProps) => {
           <h2 className='text-2xl md:text-3xl'>No items in cart</h2>
         </div>
       )}
-      <Toaster
-        toastOptions={{
-          style: {
-            background: 'rgb(59 130 246)',
-          },
-          duration: 800,
-        }}
-      />
     </div>
   )
 }

@@ -1,12 +1,13 @@
 import { useEffect, useState } from 'react'
 import { fetchFromApi } from './api/api'
 import { Route, Routes } from 'react-router-dom'
+import { Product } from './types/Product'
+import { Toaster } from 'react-hot-toast'
 import NavBar from './components/NavBar'
 import AllProductsList from './components/AllProductsList'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import CartPage from './pages/CartPage'
-import { Product } from './types/Product'
 
 const App = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -44,7 +45,7 @@ const App = () => {
           element={
             <>
               <header className='h-20'>
-                <NavBar />
+                <NavBar cartItems={cartItems} />
               </header>
               <main className='p-12'>
                 <AllProductsList
@@ -60,7 +61,7 @@ const App = () => {
           element={
             <>
               <header className='h-20'>
-                <NavBar />
+                <NavBar cartItems={cartItems} />
               </header>
               <main className='p-12'>
                 <CartPage
@@ -74,6 +75,16 @@ const App = () => {
         <Route path='/sign-in' element={<SignInPage />} />
         <Route path='/sign-up' element={<SignUpPage />} />
       </Routes>
+      <Toaster
+        toastOptions={{
+          position: 'bottom-right',
+          style: {
+            background: 'white',
+            border: '.5px solid gray',
+          },
+          duration: 800,
+        }}
+      />
     </div>
   )
 }
