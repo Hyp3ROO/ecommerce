@@ -4,14 +4,20 @@ import CartItem from '../components/CartItem'
 type CartPageProps = {
   cartItems: Product[]
   deleteProductFromCart: (id: number) => void
+  handleQuantityChange: (quantity: number, product: Product) => void
 }
 
-const CartPage = ({ cartItems, deleteProductFromCart }: CartPageProps) => {
+const CartPage = ({
+  cartItems,
+  deleteProductFromCart,
+  handleQuantityChange,
+}: CartPageProps) => {
   const renderedCartItems = cartItems?.map((cartItem: Product) => (
     <CartItem
       key={cartItem.id}
       cartItem={cartItem}
       deleteProductFromCart={deleteProductFromCart}
+      handleQuantityChange={handleQuantityChange}
     />
   ))
 
@@ -24,7 +30,7 @@ const CartPage = ({ cartItems, deleteProductFromCart }: CartPageProps) => {
             <div className='grid gap-12'>{renderedCartItems}</div>
           </div>
           <div>
-            <h2 className='text-2xl font-bold md:text-3xl'>Total cost:</h2>
+            <h2 className='text-2xl font-bold md:text-3xl'>Subtotal:</h2>
           </div>
         </div>
       ) : (

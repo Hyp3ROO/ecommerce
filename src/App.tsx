@@ -2,12 +2,17 @@ import { useEffect, useState } from 'react'
 import { fetchFromApi } from './api/api'
 import { Route, Routes } from 'react-router-dom'
 import { Product } from './types/Product'
-import { Toaster } from 'react-hot-toast'
+import { toast, Toaster } from 'react-hot-toast'
 import NavBar from './components/NavBar'
 import AllProductsList from './components/AllProductsList'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import CartPage from './pages/CartPage'
+
+const notify = (text: string, color: string) =>
+  toast(text, {
+    style: { color },
+  })
 
 const App = () => {
   const [products, setProducts] = useState<Product[]>([])
@@ -16,16 +21,45 @@ const App = () => {
   })
 
   const addProductToCart = (product: Product) => {
-    setCartItems([...cartItems, product])
-    localStorage.setItem('cartItems', JSON.stringify([...cartItems, product]))
+    if (!product.quantity) {
+      product.quantity = 1
+    } else if (product.quantity >= 5) {
+      notify('You can only have 5 of the same thing in your cart!', 'orange')
+      return
+    } else {
+      product.quantity++
+    }
+    const newCartItems = cartItems.filter(
+      cartItem => cartItem.id !== product.id
+    )
+    setCartItems([...newCartItems, product])
+    localStorage.setItem(
+      'cartItems',
+      JSON.stringify([...newCartItems, product])
+    )
+    notify('Added item to cart', 'green')
   }
 
   const deleteProductFromCart = (id: number) => {
-    const updatedCartItems = cartItems.filter(
-      (cartItem: { id: number }) => cartItem.id !== id
-    )
+    const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id)
     setCartItems(updatedCartItems)
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
+    notify('Deleted item from cart', 'red')
+  }
+
+  const handleQuantityChange = (quantity: number, product: Product) => {
+    const cartItemToUpdate = cartItems.find(
+      cartItem => cartItem.id === product.id
+    )
+    if (cartItemToUpdate !== undefined) {
+      cartItemToUpdate.quantity = quantity
+      const filteredCartItems = cartItems.filter(
+        cartItem => cartItem.id !== product.id
+      )
+      const updatedCartItems = [...filteredCartItems, cartItemToUpdate]
+      setCartItems(updatedCartItems)
+      localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
+    }
   }
 
   const fetchAllProducts = async () => {
@@ -67,6 +101,7 @@ const App = () => {
                 <CartPage
                   cartItems={cartItems}
                   deleteProductFromCart={deleteProductFromCart}
+                  handleQuantityChange={handleQuantityChange}
                 />
               </main>
             </>

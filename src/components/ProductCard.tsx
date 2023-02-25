@@ -1,21 +1,13 @@
 import ProductImage from './ProductImage'
 import { Product } from '../types/Product'
-import toast from 'react-hot-toast'
-import { MdOutlineGppGood } from 'react-icons/md'
 
 type ProductProps = {
   product: Product
   addProductToCart: (product: Product) => void
 }
 
-const notify = () =>
-  toast('Added item to cart', {
-    icon: <MdOutlineGppGood className='h-5 w-5 text-green-600' />,
-  })
-
 const ProductCard = ({ product, addProductToCart }: ProductProps) => {
   const handleClick = () => {
-    notify()
     addProductToCart(product)
   }
 
