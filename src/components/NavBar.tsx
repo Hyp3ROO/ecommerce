@@ -7,6 +7,7 @@ import { auth } from '../auth/firebase'
 import { signOutUser } from '../auth/auth'
 import { Link } from 'react-router-dom'
 import { Product } from '../types/Product'
+import { Tooltip } from 'react-tooltip'
 
 type NavBarProps = {
   cartItems: Product[]
@@ -37,21 +38,17 @@ const NavBar = ({ cartItems }: NavBarProps) => {
           } inset-0 flex min-h-screen flex-col items-center justify-evenly bg-white/80 backdrop-blur-sm`}>
           <Link to='/' onClick={() => setIsOpen(false)}>
             <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
-              <AiFillHome className='mr-3 text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700' />
+              <AiFillHome className='mr-3 text-blue-500 duration-200 group-hover:text-blue-700' />
               Home
             </li>
           </Link>
           <Link to='/cart' onClick={() => setIsOpen(false)}>
             <li className='group relative flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
-              <BsBasket3Fill className='mr-3 text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
+              <BsBasket3Fill className='mr-3 text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
               Cart
-              {cartItems.length > 0 ? (
-                <span className='absolute top-0.5 -right-1 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm text-black duration-200 group-hover:scale-110'>
-                  {cartItems.length}
-                </span>
-              ) : (
-                ''
-              )}
+              <span className='absolute top-0.5 -right-1 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm text-black duration-200'>
+                {cartItems.length}
+              </span>
             </li>
           </Link>
           {!user ? (
@@ -77,27 +74,33 @@ const NavBar = ({ cartItems }: NavBarProps) => {
       {/* Desktop NavBar */}
       <nav className='fixed inset-y-0 inset-x-12 z-10 hidden h-20 items-center justify-between bg-white/60 backdrop-blur-sm md:flex'>
         <h1 className='text-lg font-bold md:text-2xl'>E-COM</h1>
-        <ul className='flex items-center justify-center gap-4'>
-          <li>
-            <Link to='/'>
+        <ul className='flex items-center justify-center gap-6'>
+          <li className='relative'>
+            <Link
+              to='/'
+              data-tooltip-content='Home'
+              data-tooltip-id='home'
+              data-tooltip-place='bottom'>
               <button className='group p-2'>
-                <AiFillHome className='text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
+                <AiFillHome className='text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
               </button>
             </Link>
+            <Tooltip id='home' className='absolute -bottom-10' />
           </li>
-          <li>
-            <Link to='/cart'>
+          <li className='relative'>
+            <Link
+              to='/cart'
+              data-tooltip-content='Cart'
+              data-tooltip-id='cart'
+              data-tooltip-place='bottom'>
               <button className='group relative p-2'>
-                <BsBasket3Fill className='text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />
-                {cartItems.length > 0 ? (
-                  <span className='absolute -top-1 -right-2 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm duration-200 group-hover:scale-110'>
-                    {cartItems.length}
-                  </span>
-                ) : (
-                  ''
-                )}
+                <BsBasket3Fill className='text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
+                <span className='absolute -top-1 -right-2 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm duration-200'>
+                  {cartItems.length}
+                </span>
               </button>
             </Link>
+            <Tooltip id='cart' className='absolute -bottom-10' />
           </li>
           {!user ? (
             <li>
