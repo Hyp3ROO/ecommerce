@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { fetchFromApi } from './api/api'
+import { getProducts } from './api/api'
 import { Route, Routes } from 'react-router-dom'
 import { Product } from './types/Product'
 import { toast, Toaster } from 'react-hot-toast'
@@ -21,22 +21,14 @@ const App = () => {
   })
 
   const addProductToCart = (product: Product) => {
-    if (!product.quantity) {
-      product.quantity = 1
-    } else if (product.quantity >= 5) {
+    if (product.quantity < 5) {
+      product.quantity++
+    } else {
       notify('You can only have 5 of the same thing in your cart!', 'orange')
       return
-    } else {
-      product.quantity++
     }
-    const newCartItems = cartItems.filter(
-      cartItem => cartItem.id !== product.id
-    )
-    setCartItems([...newCartItems, product])
-    localStorage.setItem(
-      'cartItems',
-      JSON.stringify([...newCartItems, product])
-    )
+    setCartItems([...cartItems, product])
+    localStorage.setItem('cartItems', JSON.stringify([...cartItems, product]))
     notify('Added item to cart', 'green')
   }
 
@@ -48,22 +40,18 @@ const App = () => {
   }
 
   const handleQuantityChange = (quantity: number, product: Product) => {
-    const cartItemToUpdate = cartItems.find(
-      cartItem => cartItem.id === product.id
-    )
-    if (cartItemToUpdate !== undefined) {
-      cartItemToUpdate.quantity = quantity
-      const filteredCartItems = cartItems.filter(
-        cartItem => cartItem.id !== product.id
-      )
-      const updatedCartItems = [...filteredCartItems, cartItemToUpdate]
-      setCartItems(updatedCartItems)
-      localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
-    }
+    const updatedCartItems = cartItems.map(cartItem => {
+      if (cartItem.id === product.id) {
+        return { ...cartItem, quantity }
+      }
+      return cartItem
+    })
+    setCartItems(updatedCartItems)
+    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
   }
 
   const fetchAllProducts = async () => {
-    const response = await fetchFromApi('products')
+    const response = await getProducts()
     setProducts(response)
   }
 
