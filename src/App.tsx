@@ -27,8 +27,14 @@ const App = () => {
       notify('You can only have 5 of the same thing in your cart!', 'orange')
       return
     }
-    setCartItems([...cartItems, product])
-    localStorage.setItem('cartItems', JSON.stringify([...cartItems, product]))
+    const newCartItems = cartItems.filter(
+      cartItem => cartItem.id !== product.id
+    )
+    setCartItems([...newCartItems, product])
+    localStorage.setItem(
+      'cartItems',
+      JSON.stringify([...newCartItems, product])
+    )
     notify('Added item to cart', 'green')
   }
 
