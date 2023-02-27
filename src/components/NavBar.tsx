@@ -7,7 +7,7 @@ import { auth } from '../auth/firebase'
 import { signOutUser } from '../auth/auth'
 import { Link } from 'react-router-dom'
 import { Product } from '../types/Product'
-import { Tooltip } from 'react-tooltip'
+import Tooltip from '@mui/material/Tooltip'
 
 type NavBarProps = {
   cartItems: Product[]
@@ -75,32 +75,26 @@ const NavBar = ({ cartItems }: NavBarProps) => {
       <nav className='fixed inset-y-0 inset-x-12 z-10 hidden h-20 items-center justify-between bg-white/60 backdrop-blur-sm md:flex'>
         <h1 className='text-lg font-bold md:text-2xl'>E-COM</h1>
         <ul className='flex items-center justify-center gap-6'>
-          <li className='relative'>
-            <Link
-              to='/'
-              data-tooltip-content='Home'
-              data-tooltip-id='home'
-              data-tooltip-place='bottom'>
-              <button className='group p-2'>
-                <AiFillHome className='text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
-              </button>
-            </Link>
-            <Tooltip id='home' className='absolute -bottom-10' />
+          <li>
+            <Tooltip title='Home' arrow disableInteractive>
+              <Link to='/'>
+                <button className='group p-2'>
+                  <AiFillHome className='text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
+                </button>
+              </Link>
+            </Tooltip>
           </li>
-          <li className='relative'>
-            <Link
-              to='/cart'
-              data-tooltip-content='Cart'
-              data-tooltip-id='cart'
-              data-tooltip-place='bottom'>
-              <button className='group relative p-2'>
-                <BsBasket3Fill className='text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
-                <span className='absolute -top-1 -right-2 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm duration-200'>
-                  {cartItems.length}
-                </span>
-              </button>
-            </Link>
-            <Tooltip id='cart' className='absolute -bottom-10' />
+          <li>
+            <Tooltip title='Cart' arrow disableInteractive>
+              <Link to='/cart'>
+                <button className='group relative p-2'>
+                  <BsBasket3Fill className='text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
+                  <span className='absolute -top-1 -right-2 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm duration-200'>
+                    {cartItems.length}
+                  </span>
+                </button>
+              </Link>
+            </Tooltip>
           </li>
           {!user ? (
             <li>
