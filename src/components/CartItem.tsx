@@ -5,7 +5,7 @@ import { useState } from 'react'
 
 type CartItemProps = {
   cartItem: Product
-  deleteProductFromCart: (id: number) => void
+  deleteProductFromCart: (id: string) => void
   handleQuantityChange: (quantity: number, product: Product) => void
 }
 
@@ -27,7 +27,7 @@ const CartItem = ({
   }
 
   return (
-    <div className='auto-cols-[30rem, 5rem] grid grid-flow-col items-center gap-6 md:gap-24 md:px-12'>
+    <div className='flex items-center gap-6 md:gap-24'>
       <ProductImage
         image={cartItem?.image}
         alt={cartItem?.title}
