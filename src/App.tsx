@@ -8,6 +8,17 @@ import AllProductsList from './components/AllProductsList'
 import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import CartPage from './pages/CartPage'
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+} from 'firebase/firestore'
+import { auth, db } from './auth/firebase'
+import { useAuthState } from 'react-firebase-hooks/auth'
 
 const notify = (text: string, color: string) =>
   toast(text, {
@@ -15,12 +26,13 @@ const notify = (text: string, color: string) =>
   })
 
 const App = () => {
+  const [user] = useAuthState(auth)
   const [products, setProducts] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>(() => {
     return JSON.parse(localStorage.getItem('cartItems') || '[]')
   })
 
-  const addProductToCart = (product: Product) => {
+  const addProductToCart = async (product: Product) => {
     if (product.quantity < 5) {
       product.quantity++
     } else {
@@ -35,17 +47,27 @@ const App = () => {
       'cartItems',
       JSON.stringify([...newCartItems, product])
     )
+    if (auth.currentUser) {
+      const { uid } = auth.currentUser
+      await addDoc(collection(db, uid), {
+        cartItem: product,
+      })
+    }
     notify('Added item to cart', 'green')
   }
 
-  const deleteProductFromCart = (id: number) => {
+  const deleteProductFromCart = async (id: string) => {
     const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id)
     setCartItems(updatedCartItems)
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
     notify('Deleted item from cart', 'red')
+    if (auth.currentUser) {
+      const { uid } = auth.currentUser
+      await deleteDoc(doc(db, uid, id))
+    }
   }
 
-  const handleQuantityChange = (quantity: number, product: Product) => {
+  const handleQuantityChange = async (quantity: number, product: Product) => {
     const updatedCartItems = cartItems.map(cartItem => {
       if (cartItem.id === product.id) {
         return { ...cartItem, quantity }
@@ -54,16 +76,44 @@ const App = () => {
     })
     setCartItems(updatedCartItems)
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
+    notify('Changed quantity of item', 'royalblue')
+    if (auth.currentUser) {
+      const { uid } = auth.currentUser
+      await updateDoc(doc(db, uid, product.id), {
+        cartItem: {
+          ...product,
+          quantity,
+        },
+      })
+    }
   }
 
-  const fetchAllProducts = async () => {
+  const fetchProducts = async () => {
     const response = await getProducts()
     setProducts(response)
   }
 
+  const fetchCart = async () => {
+    if (auth.currentUser) {
+      const { uid } = auth.currentUser
+      const q = query(collection(db, uid))
+      onSnapshot(q, querySnapshot => {
+        let cartItems: any[] = []
+        querySnapshot.forEach(doc => {
+          cartItems.push({ ...doc.data().cartItem, id: doc.id })
+        })
+        setCartItems(cartItems)
+      })
+    }
+  }
+
   useEffect(() => {
-    fetchAllProducts()
+    fetchProducts()
   }, [])
+
+  useEffect(() => {
+    fetchCart()
+  }, [user])
 
   return (
     <div className='relative min-h-screen overflow-hidden'>
@@ -111,7 +161,7 @@ const App = () => {
             background: 'white',
             border: '.5px solid gray',
           },
-          duration: 800,
+          duration: 1200,
         }}
       />
     </div>
