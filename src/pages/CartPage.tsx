@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react'
 
 type CartPageProps = {
   cartItems: Product[]
-  deleteProductFromCart: (id: number) => void
+  deleteProductFromCart: (id: string) => void
   handleQuantityChange: (quantity: number, product: Product) => void
 }
 
