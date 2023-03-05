@@ -23,6 +23,7 @@
     "react-icons": "^4.7.1",
     "react-lazy-load-image-component": "^1.5.6",
     "react-loading": "^2.0.3",
+    "react-responsive-carousel": "^3.2.23",
     "react-router-dom": "^6.8.1"
   },
   "devDependencies": {
