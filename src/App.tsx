@@ -19,6 +19,7 @@ import {
 } from 'firebase/firestore'
 import { auth, db } from './auth/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import FeaturedProducts from './components/FeaturedProducts'
 
 const notify = (text: string, color: string) =>
   toast(text, {
@@ -28,6 +29,7 @@ const notify = (text: string, color: string) =>
 const App = () => {
   const [user] = useAuthState(auth)
   const [products, setProducts] = useState<Product[]>([])
+  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>(() => {
     return JSON.parse(localStorage.getItem('cartItems') || '[]')
   })
@@ -93,6 +95,14 @@ const App = () => {
     setProducts(response)
   }
 
+  const fetchFeaturedProducts = async () => {
+    const response = await getProducts()
+    const featuredProducts = response?.filter((product: Product) => {
+      return product.rating.rate > 4.5
+    })
+    setFeaturedProducts(featuredProducts)
+  }
+
   const fetchCart = async () => {
     if (auth.currentUser) {
       const { uid } = auth.currentUser
@@ -109,6 +119,7 @@ const App = () => {
 
   useEffect(() => {
     fetchProducts()
+    fetchFeaturedProducts()
   }, [])
 
   useEffect(() => {
@@ -126,6 +137,10 @@ const App = () => {
                 <NavBar cartItems={cartItems} />
               </header>
               <main className='p-12'>
+                <FeaturedProducts
+                  featuredProducts={featuredProducts}
+                  addProductToCart={addProductToCart}
+                />
                 <AllProductsList
                   products={products}
                   addProductToCart={addProductToCart}
