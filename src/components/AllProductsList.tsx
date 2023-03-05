@@ -17,7 +17,7 @@ const ProductsList = ({ products, addProductToCart }: ProductsProps) => {
   ))
 
   return (
-    <>
+    <div className='py-4'>
       <div className='pb-4'>
         <h2 className='mb-2 text-center text-3xl font-bold uppercase tracking-widest md:text-left'>
           All products
@@ -37,7 +37,7 @@ const ProductsList = ({ products, addProductToCart }: ProductsProps) => {
           />
         )}
       </div>
-    </>
+    </div>
   )
 }
 export default ProductsList
