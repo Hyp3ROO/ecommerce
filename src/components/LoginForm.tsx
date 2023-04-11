@@ -4,7 +4,7 @@ import { IoMdMail, IoMdClose } from 'react-icons/io'
 import { AiFillLock } from 'react-icons/ai'
 import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth'
 import { auth } from '../auth/firebase'
-import { Link, Navigate, useLocation } from 'react-router-dom'
+import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 
 type FormProps = {
@@ -25,6 +25,7 @@ const LoginForm = ({ formProps }: FormProps) => {
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
+  const navigate = useNavigate()
   const emailRegExp = new RegExp(
     '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'
   )
@@ -60,11 +61,11 @@ const LoginForm = ({ formProps }: FormProps) => {
 
   return (
     <div className='z-15 fixed inset-0 flex flex-col items-center justify-center bg-gray-900 text-center text-white'>
-      <Link to='/'>
-        <button className='group absolute right-5 top-5'>
-          <IoMdClose className='text-3xl duration-200 group-hover:text-blue-500' />
-        </button>
-      </Link>
+      <button
+        className='group absolute right-5 top-5'
+        onClick={() => navigate('/')}>
+        <IoMdClose className='text-3xl duration-200 group-hover:text-blue-500' />
+      </button>
       <form
         className='flex flex-col items-center justify-center gap-3'
         onSubmit={e => handleSubmit(e)}>
@@ -75,26 +76,30 @@ const LoginForm = ({ formProps }: FormProps) => {
             <IoMdMail className='h-5 w-5 text-gray-500 dark:text-gray-400' />
           </div>
           <input
-            className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
+            className='block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 pl-10 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500'
             type='text'
             value={email}
             onChange={e => setEmail(e.currentTarget.value)}
           />
         </div>
-        {emailError.length > 0 ? emailError : ''}
+        <p className='text-sm font-bold text-red-500'>
+          {emailError.length > 0 ? emailError : ''}
+        </p>
         <label>Password</label>
         <div className='relative'>
           <div className='pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3'>
             <AiFillLock className='h-5 w-5 text-gray-500 dark:text-gray-400' />
           </div>
           <input
-            className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 focus:border-blue-500 focus:ring-blue-500  dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
+            className='block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 pl-10 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500'
             type='password'
             value={password}
             onChange={e => setPassword(e.currentTarget.value)}
           />
         </div>
-        {passwordError.length > 0 ? passwordError : ''}
+        <p className='text-sm font-bold text-red-500'>
+          {passwordError.length > 0 ? passwordError : ''}
+        </p>
         <button className='mt-6 rounded-lg border border-blue-700 px-8 py-3 text-center text-sm text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'>
           {formProps.btnText}
         </button>
