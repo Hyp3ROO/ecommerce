@@ -85,7 +85,7 @@ const CartPage = ({
   return (
     <div className='relative'>
       {cartItems.length > 0 ? (
-        <div className='lg:auto-cols-[2fr, 1fr] grid place-items-center gap-4 lg:grid-flow-col lg:place-items-start lg:px-24'>
+        <div className='lg:auto-cols-[2fr, 1fr] grid place-items-center gap-4 md:gap-8 lg:grid-flow-col lg:place-items-start lg:px-24'>
           <div>
             <div className='flex items-center justify-between pb-8'>
               <h2 className='text-2xl font-bold md:text-3xl'>Cart:</h2>

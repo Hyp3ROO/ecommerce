@@ -50,7 +50,12 @@ const CartItem = ({
         <Link
           to={`/product/${foundOrder?.id}`}
           className='duration-200 hover:text-blue-500'>
-          <h3 className='text-sm font-bold md:text-xl'>{cartItem?.title}</h3>
+          <h3 className='text-sm font-bold md:hidden'>
+            {`${cartItem?.title.substring(0, 16)}...`}
+          </h3>
+          <h3 className='hidden text-xl font-bold md:block'>
+            {cartItem?.title}
+          </h3>
         </Link>
         <div className='text-xs md:text-lg'>
           <label className='mr-4'>Quantity</label>
