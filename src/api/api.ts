@@ -16,4 +16,15 @@ const getProducts = async () => {
   }
 }
 
-export { getProducts }
+const getOneProduct = async (id: string) => {
+  try {
+    const response = await axios.get(`${API_URL}/${id}`)
+    const updatedResponse = { ...response.data, quantity: 0 }
+    return updatedResponse
+  } catch (error) {
+    const err = error as AxiosError
+    throw new Error(err.message)
+  }
+}
+
+export { getProducts, getOneProduct }
