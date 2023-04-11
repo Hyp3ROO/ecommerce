@@ -2,19 +2,28 @@ import { Product } from '../types/Product'
 import { BsFillTrashFill } from 'react-icons/bs'
 import ProductImage from './ProductImage'
 import { useState } from 'react'
+import { Link } from 'react-router-dom'
 
 type CartItemProps = {
   cartItem: Product
   deleteProductFromCart: (id: string) => void
   handleQuantityChange: (quantity: number, product: Product) => void
+  products: Product[]
 }
 
 const CartItem = ({
   cartItem,
   deleteProductFromCart,
   handleQuantityChange,
+  products,
 }: CartItemProps) => {
   const [quantity, setQuantity] = useState(cartItem.quantity)
+
+  const foundOrder = products?.find((product: Product) => {
+    if (cartItem.title === product.title) {
+      return product
+    }
+  })
 
   const handleDeleteClick = () => {
     cartItem.quantity = 0
@@ -27,20 +36,28 @@ const CartItem = ({
   }
 
   return (
-    <div className='flex items-center gap-6 md:gap-24'>
-      <ProductImage
-        image={cartItem?.image}
-        alt={cartItem?.title}
-        className='w-24 md:w-32'
-      />
+    <div className='flex items-center gap-6 text-black dark:text-white md:gap-24'>
+      <Link
+        to={`/product/${foundOrder?.id}`}
+        className='duration-200 hover:scale-105'>
+        <ProductImage
+          image={cartItem?.image}
+          alt={cartItem?.title}
+          className='w-24 rounded-lg bg-white p-4 md:w-32'
+        />
+      </Link>
       <div className='flex flex-col gap-2'>
-        <h3 className='text-sm font-bold md:text-xl'>{cartItem?.title}</h3>
+        <Link
+          to={`/product/${foundOrder?.id}`}
+          className='duration-200 hover:text-blue-500'>
+          <h3 className='text-sm font-bold md:text-xl'>{cartItem?.title}</h3>
+        </Link>
         <div className='text-xs md:text-lg'>
           <label className='mr-4'>Quantity</label>
           <select
             value={quantity}
             onChange={e => handleChange(e)}
-            className='p-1'>
+            className='p-1 dark:bg-gray-900'>
             <option value={1}>1</option>
             <option value={2}>2</option>
             <option value={3}>3</option>
