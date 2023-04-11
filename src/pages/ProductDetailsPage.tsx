@@ -13,10 +13,9 @@ type ProductDetailsProps = {
 const ProductDetailsPage = ({ addProductToCart }: ProductDetailsProps) => {
   const { id } = useParams()
   const [productDetails, setProductDetails] = useState<Product>()
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   const fetchOneProduct = async (id: string) => {
-    setLoading(true)
     const productInfo = await getOneProduct(id)
     setProductDetails(productInfo)
     setLoading(false)
@@ -42,7 +41,7 @@ const ProductDetailsPage = ({ addProductToCart }: ProductDetailsProps) => {
           width={'20%'}
           height={'20%'}
           color='rgb(59 130 246)'
-          className='absolute top-10 left-[50%] -translate-x-1/2'
+          className='top-30 absolute left-[50%] -translate-x-1/2'
         />
       ) : (
         <div className='grid grid-flow-row place-items-center gap-8 text-center'>
