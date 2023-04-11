@@ -20,6 +20,8 @@ import {
 import { auth, db } from './auth/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import FeaturedProducts from './components/FeaturedProducts'
+import OrdersPage from './pages/OrdersPage'
+import ProductDetailsPage from './pages/ProductDetailsPage'
 
 const notify = (text: string, color: string) =>
   toast(text, {
@@ -30,6 +32,7 @@ const App = () => {
   const [user] = useAuthState(auth)
   const [products, setProducts] = useState<Product[]>([])
   const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
+  const [orders, setOrders] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>(() => {
     return JSON.parse(localStorage.getItem('cartItems') || '[]')
   })
@@ -90,17 +93,18 @@ const App = () => {
     }
   }
 
-  const fetchProducts = async () => {
-    const response = await getProducts()
-    setProducts(response)
-  }
-
   const fetchFeaturedProducts = async () => {
     const response = await getProducts()
     const featuredProducts = response?.filter((product: Product) => {
       return product.rating.rate > 4.5
     })
     setFeaturedProducts(featuredProducts)
+  }
+
+  const fetchProducts = async () => {
+    const response = await getProducts()
+    setProducts(response)
+    fetchFeaturedProducts()
   }
 
   const fetchCart = async () => {
@@ -117,26 +121,39 @@ const App = () => {
     }
   }
 
+  const fetchOrders = async () => {
+    if (auth.currentUser) {
+      const q = query(collection(db, 'orders'))
+      onSnapshot(q, querySnapshot => {
+        let orders: any[] = []
+        querySnapshot.forEach(doc => {
+          orders.push({ ...doc.data(), id: doc.id })
+        })
+        setOrders(orders)
+      })
+    }
+  }
+
   useEffect(() => {
     fetchProducts()
-    fetchFeaturedProducts()
   }, [])
 
   useEffect(() => {
     fetchCart()
+    fetchOrders()
   }, [user])
 
   return (
-    <div className='relative min-h-screen overflow-hidden'>
-      <Routes>
-        <Route
-          path='/'
-          element={
-            <>
-              <header className='h-20'>
-                <NavBar cartItems={cartItems} />
-              </header>
-              <main className='p-12'>
+    <div className='relative min-h-screen overflow-hidden bg-white text-black dark:bg-gray-900 dark:text-white'>
+      <header className='h-20'>
+        <NavBar cartItems={cartItems} />
+      </header>
+      <main className='p-12'>
+        <Routes>
+          <Route
+            path='/'
+            element={
+              <>
                 <FeaturedProducts
                   featuredProducts={featuredProducts}
                   addProductToCart={addProductToCart}
@@ -145,30 +162,34 @@ const App = () => {
                   products={products}
                   addProductToCart={addProductToCart}
                 />
-              </main>
-            </>
-          }
-        />
-        <Route
-          path='/cart'
-          element={
-            <>
-              <header className='h-20'>
-                <NavBar cartItems={cartItems} />
-              </header>
-              <main className='p-12'>
-                <CartPage
-                  cartItems={cartItems}
-                  deleteProductFromCart={deleteProductFromCart}
-                  handleQuantityChange={handleQuantityChange}
-                />
-              </main>
-            </>
-          }
-        />
-        <Route path='/sign-in' element={<SignInPage />} />
-        <Route path='/sign-up' element={<SignUpPage />} />
-      </Routes>
+              </>
+            }
+          />
+          <Route
+            path='/cart'
+            element={
+              <CartPage
+                cartItems={cartItems}
+                setCartItems={setCartItems}
+                deleteProductFromCart={deleteProductFromCart}
+                handleQuantityChange={handleQuantityChange}
+                setOrders={setOrders}
+                products={products}
+              />
+            }
+          />
+          <Route
+            path='/orders'
+            element={<OrdersPage orders={orders} products={products} />}
+          />
+          <Route
+            path='/product/:id'
+            element={<ProductDetailsPage addProductToCart={addProductToCart} />}
+          />
+          <Route path='/sign-in' element={<SignInPage />} />
+          <Route path='/sign-up' element={<SignUpPage />} />
+        </Routes>
+      </main>
       <Toaster
         toastOptions={{
           position: 'bottom-right',
