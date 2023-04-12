@@ -40,21 +40,32 @@ const OrdersPage = ({ orders, products }: OrdersProps) => {
 
     return (
       <>
-        <div className='flex flex-col items-center gap-4 text-center md:flex-row md:gap-24 md:px-24'>
+        <div className='flex flex-col items-center gap-4 text-center lg:grid lg:grid-flow-col lg:gap-24 lg:px-24'>
           <p className='font-bold'>Order: #{order.id}</p>
           <p className='text-xl font-bold'>Total: {order.total}$</p>
           <p>Ordered: {orderDate}</p>
           {isExpanded ? (
-            <AiOutlineArrowUp
-              className='cursor-pointer text-xl duration-300 hover:scale-110'
-              onClick={() => handleClick(index)}
-            />
+            <>
+              <p className='text-sm font-bold text-blue-500'>
+                Roll up your orders
+              </p>
+              <AiOutlineArrowUp
+                className='cursor-pointer text-xl duration-300 hover:scale-110'
+                onClick={() => handleClick(index)}
+              />
+            </>
           ) : (
-            <AiOutlineArrowDown
-              className='cursor-pointer text-xl duration-300 hover:scale-110'
-              onClick={() => handleClick(index)}
-            />
+            <>
+              <p className='text-sm font-bold text-blue-500'>
+                Expand your orders
+              </p>
+              <AiOutlineArrowDown
+                className='cursor-pointer text-xl duration-300 hover:scale-110'
+                onClick={() => handleClick(index)}
+              />
+            </>
           )}
+          <div className='w-full rounded-br-full rounded-bl-full bg-blue-500 p-1.5 lg:hidden' />
         </div>
         <div className='flex flex-wrap items-center justify-center gap-8 md:gap-16'>
           {isExpanded && (
@@ -70,7 +81,7 @@ const OrdersPage = ({ orders, products }: OrdersProps) => {
       <h2 className='mb-12 text-center text-3xl font-bold uppercase tracking-widest'>
         Your Orders
       </h2>
-      <div className='grid place-items-center justify-center gap-6 text-center md:gap-16'>
+      <div className='grid place-items-center justify-center gap-6 text-center lg:gap-16'>
         {renderedOrders.length > 0 ? (
           renderedOrders
         ) : (
