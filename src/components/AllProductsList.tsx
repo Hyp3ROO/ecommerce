@@ -1,13 +1,19 @@
 import ProductCard from './ProductCard'
 import ReactLoading from 'react-loading'
 import { Product } from '../types/Product'
+import { UseQueryResult } from '@tanstack/react-query/build/lib/types'
 
 type ProductsProps = {
   products: Product[]
   addProductToCart: (product: Product) => void
+  productsQuery: UseQueryResult<any, unknown>
 }
 
-const ProductsList = ({ products, addProductToCart }: ProductsProps) => {
+const ProductsList = ({
+  products,
+  addProductToCart,
+  productsQuery,
+}: ProductsProps) => {
   const renderedProducts = products?.map((product: Product) => (
     <ProductCard
       key={product.id}
@@ -25,7 +31,7 @@ const ProductsList = ({ products, addProductToCart }: ProductsProps) => {
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
       </div>
       <div className='relative grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-12'>
-        {products.length > 0 ? (
+        {!productsQuery.isLoading ? (
           renderedProducts
         ) : (
           <ReactLoading

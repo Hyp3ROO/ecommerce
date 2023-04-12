@@ -14,6 +14,7 @@ import {
   deleteDoc,
   doc,
   onSnapshot,
+  orderBy,
   query,
   updateDoc,
 } from 'firebase/firestore'
@@ -22,6 +23,7 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import FeaturedProducts from './components/FeaturedProducts'
 import OrdersPage from './pages/OrdersPage'
 import ProductDetailsPage from './pages/ProductDetailsPage'
+import { useQuery } from '@tanstack/react-query'
 
 const notify = (text: string, color: string) =>
   toast(text, {
@@ -29,9 +31,15 @@ const notify = (text: string, color: string) =>
   })
 
 const App = () => {
+  const productsQuery = useQuery({
+    queryKey: ['products'],
+    queryFn: getProducts,
+  })
+  const products = productsQuery.isSuccess ? productsQuery.data : []
+  const featuredProducts = products.filter((product: Product) => {
+    return product.rating.rate > 4.5
+  })
   const [user] = useAuthState(auth)
-  const [products, setProducts] = useState<Product[]>([])
-  const [featuredProducts, setFeaturedProducts] = useState<Product[]>([])
   const [orders, setOrders] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>(() => {
     return JSON.parse(localStorage.getItem('cartItems') || '[]')
@@ -93,20 +101,6 @@ const App = () => {
     }
   }
 
-  const fetchFeaturedProducts = async () => {
-    const response = await getProducts()
-    const featuredProducts = response?.filter((product: Product) => {
-      return product.rating.rate > 4.5
-    })
-    setFeaturedProducts(featuredProducts)
-  }
-
-  const fetchProducts = async () => {
-    const response = await getProducts()
-    setProducts(response)
-    fetchFeaturedProducts()
-  }
-
   const fetchCart = async () => {
     if (auth.currentUser) {
       const { uid } = auth.currentUser
@@ -123,20 +117,22 @@ const App = () => {
 
   const fetchOrders = async () => {
     if (auth.currentUser) {
-      const q = query(collection(db, 'orders'))
+      const { uid } = auth.currentUser
+      const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'))
       onSnapshot(q, querySnapshot => {
         let orders: any[] = []
         querySnapshot.forEach(doc => {
-          orders.push({ ...doc.data(), id: doc.id })
+          if (uid === doc.data().uid) {
+            orders.push({
+              ...doc.data(),
+              id: doc.id,
+            })
+          }
         })
         setOrders(orders)
       })
     }
   }
-
-  useEffect(() => {
-    fetchProducts()
-  }, [])
 
   useEffect(() => {
     fetchCart()
@@ -157,10 +153,12 @@ const App = () => {
                 <FeaturedProducts
                   featuredProducts={featuredProducts}
                   addProductToCart={addProductToCart}
+                  productsQuery={productsQuery}
                 />
                 <AllProductsList
                   products={products}
                   addProductToCart={addProductToCart}
+                  productsQuery={productsQuery}
                 />
               </>
             }

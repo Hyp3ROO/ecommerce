@@ -3,15 +3,18 @@ import { Carousel } from 'react-responsive-carousel'
 import { Product } from '../types/Product'
 import ReactLoading from 'react-loading'
 import FeaturedProduct from './FeaturedProduct'
+import { UseQueryResult } from '@tanstack/react-query/build/lib/types'
 
 type FeaturedProductsProps = {
   featuredProducts: Product[]
   addProductToCart: (product: Product) => void
+  productsQuery: UseQueryResult<any, unknown>
 }
 
 const FeaturedProducts = ({
   featuredProducts,
   addProductToCart,
+  productsQuery,
 }: FeaturedProductsProps) => {
   const featuredProductsList = featuredProducts?.map(
     (featuredProduct: Product) => (
@@ -33,7 +36,7 @@ const FeaturedProducts = ({
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
       </div>
       <div className='relative min-h-[10rem] py-10 md:min-h-[30rem]'>
-        {featuredProducts.length > 0 ? (
+        {!productsQuery.isLoading ? (
           <Carousel
             autoPlay
             infiniteLoop
