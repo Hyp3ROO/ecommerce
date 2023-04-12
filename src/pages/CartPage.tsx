@@ -4,7 +4,13 @@ import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth, db } from '../auth/firebase'
 import toast from 'react-hot-toast'
-import { addDoc, collection, deleteDoc, doc } from 'firebase/firestore'
+import {
+  addDoc,
+  collection,
+  deleteDoc,
+  doc,
+  serverTimestamp,
+} from 'firebase/firestore'
 
 type CartPageProps = {
   cartItems: Product[]
@@ -51,12 +57,12 @@ const CartPage = ({
         order: cartItems,
         uid,
         total,
+        createdAt: serverTimestamp(),
       })
       cartItems.forEach(async cartItem => {
         await deleteDoc(doc(db, uid, cartItem.id))
       })
     }
-    setOrders(cartItems)
     setCartItems([])
     localStorage.setItem('cartItems', '[]')
     notify('You made an order!', 'green')
@@ -110,9 +116,7 @@ const CartPage = ({
           </div>
         </div>
       ) : (
-        <div className='grid place-items-center'>
-          <h2 className='text-2xl md:text-3xl'>No items in cart</h2>
-        </div>
+        <h2 className='text-center text-2xl md:text-3xl'>No items in cart</h2>
       )}
     </div>
   )
