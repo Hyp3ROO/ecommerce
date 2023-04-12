@@ -1,8 +1,24 @@
 import { useState } from 'react'
 import OrderItem from '../components/OrderItem'
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
+import { Product } from '../types/Product'
 
-const OrdersPage = ({ orders, products }: any) => {
+type Order = {
+  id: string
+  total?: number
+  uid?: string
+  createdAt?: {
+    seconds: number
+  }
+  order?: Product[]
+}
+
+type OrdersProps = {
+  orders: Order[]
+  products: Product[]
+}
+
+const OrdersPage = ({ orders, products }: OrdersProps) => {
   const [expandedIndex, setExpandedIndex] = useState(-1)
 
   const handleClick = (index: number) => {
@@ -15,14 +31,19 @@ const OrdersPage = ({ orders, products }: any) => {
     })
   }
 
-  const renderedOrders = orders?.map((order: any, index: number) => {
+  const renderedOrders = orders?.map((order: Order, index: number) => {
     const isExpanded = index === expandedIndex
+    let orderDate
+    if (order.createdAt?.seconds) {
+      orderDate = new Date(order.createdAt?.seconds * 1000).toUTCString()
+    }
 
     return (
       <>
-        <div className='flex items-center gap-24 px-24 text-center'>
+        <div className='flex flex-col items-center gap-4 text-center md:flex-row md:gap-24 md:px-24'>
           <p className='font-bold'>Order: #{order.id}</p>
           <p className='text-xl font-bold'>Total: {order.total}$</p>
+          <p>Ordered: {orderDate}</p>
           {isExpanded ? (
             <AiOutlineArrowUp
               className='cursor-pointer text-xl duration-300 hover:scale-110'
@@ -35,7 +56,7 @@ const OrdersPage = ({ orders, products }: any) => {
             />
           )}
         </div>
-        <div className='flex flex-wrap items-center justify-center gap-16'>
+        <div className='flex flex-wrap items-center justify-center gap-8 md:gap-16'>
           {isExpanded && (
             <OrderItem key={order.id} order={order.order} products={products} />
           )}
@@ -43,13 +64,20 @@ const OrdersPage = ({ orders, products }: any) => {
       </>
     )
   })
+
   return (
     <>
       <h2 className='mb-12 text-center text-3xl font-bold uppercase tracking-widest'>
         Your Orders
       </h2>
-      <div className='grid place-items-center justify-center gap-16 text-center'>
-        {renderedOrders}
+      <div className='grid place-items-center justify-center gap-6 text-center md:gap-16'>
+        {renderedOrders.length > 0 ? (
+          renderedOrders
+        ) : (
+          <p className='text-center text-xl'>
+            You haven't ordered anything yet
+          </p>
+        )}
       </div>
     </>
   )
