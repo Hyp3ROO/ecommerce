@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { getProducts } from './api/api'
-import { Route, Routes } from 'react-router-dom'
+import { Navigate, Route, Routes } from 'react-router-dom'
 import { Product } from './types/Product'
 import { toast, Toaster } from 'react-hot-toast'
 import NavBar from './components/NavBar'
@@ -176,9 +176,21 @@ const App = () => {
               />
             }
           />
+
           <Route
             path='/orders'
-            element={<OrdersPage orders={orders} products={products} />}
+            element={
+              user ? (
+                <OrdersPage orders={orders} products={products} />
+              ) : (
+                <>
+                  <p className='text-center text-3xl font-bold'>
+                    Redirecting...
+                  </p>
+                  <Navigate to='/' />
+                </>
+              )
+            }
           />
           <Route
             path='/product/:id'
