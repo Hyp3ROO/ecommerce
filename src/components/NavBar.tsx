@@ -6,7 +6,7 @@ import { ImCart } from 'react-icons/im'
 import Hamburger from 'hamburger-react'
 import { auth } from '../auth/firebase'
 import { signOutUser } from '../auth/auth'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { Product } from '../types/Product'
 import Tooltip from '@mui/material/Tooltip'
 import { BsMoon, BsSun } from 'react-icons/bs'
@@ -17,6 +17,7 @@ type NavBarProps = {
 
 const NavBar = ({ cartItems }: NavBarProps) => {
   const location = useLocation()
+  const navigate = useNavigate()
   const [user] = useAuthState(auth)
   const [isOpen, setIsOpen] = useState(false)
   const [theme, setTheme] = useState(localStorage.theme || 'light')
@@ -100,22 +101,20 @@ const NavBar = ({ cartItems }: NavBarProps) => {
           </li>
           {!user ? (
             <li>
-              <Link to='/sign-in'>
-                <button className='rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'>
-                  Sign In
-                </button>
-              </Link>
+              <button
+                className='rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
+                onClick={() => navigate('/sign-in')}>
+                Sign In
+              </button>
             </li>
           ) : (
             <>
-              <li>
-                <Link
-                  to='/orders'
-                  className='group relative flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
+              <Link to='/orders' onClick={() => setIsOpen(false)}>
+                <li className='group relative flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
                   <GoTasklist className='mr-3 text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
                   Orders
-                </Link>
-              </li>
+                </li>
+              </Link>
               <li>
                 <button
                   className='rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
