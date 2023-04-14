@@ -34,6 +34,7 @@ const App = () => {
   const productsQuery = useQuery({
     queryKey: ['products'],
     queryFn: getProducts,
+    refetchOnWindowFocus: false,
   })
   const products = productsQuery.isSuccess ? productsQuery.data : []
   const featuredProducts = products.filter((product: Product) => {
@@ -171,7 +172,6 @@ const App = () => {
                 setCartItems={setCartItems}
                 deleteProductFromCart={deleteProductFromCart}
                 handleQuantityChange={handleQuantityChange}
-                setOrders={setOrders}
                 products={products}
               />
             }
@@ -193,8 +193,14 @@ const App = () => {
             }
           />
           <Route
-            path='/product/:id'
-            element={<ProductDetailsPage addProductToCart={addProductToCart} />}
+            path='/product/:title'
+            element={
+              <ProductDetailsPage
+                addProductToCart={addProductToCart}
+                cartItems={cartItems}
+                products={products}
+              />
+            }
           />
           <Route path='/sign-in' element={<SignInPage />} />
           <Route path='/sign-up' element={<SignUpPage />} />

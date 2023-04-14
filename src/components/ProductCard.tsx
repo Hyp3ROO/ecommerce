@@ -16,7 +16,7 @@ const ProductCard = ({ product, addProductToCart }: ProductProps) => {
   return (
     <div className='flex flex-col items-center justify-center rounded-lg py-6 px-2'>
       <Link
-        to={`/product/${product?.id}`}
+        to={`/product/${product?.title}`}
         className='duration-200 hover:scale-105'>
         <ProductImage
           image={product?.image}
@@ -26,7 +26,7 @@ const ProductCard = ({ product, addProductToCart }: ProductProps) => {
       </Link>
       <div className='flex flex-col items-center text-center'>
         <Link
-          to={`/product/${product?.id}`}
+          to={`/product/${product?.title}`}
           className='duration-200 hover:text-blue-500'>
           <h3 className='my-4 font-bold'>{product?.title}</h3>
         </Link>

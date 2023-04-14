@@ -17,9 +17,9 @@ const FeaturedProduct = ({
   }
 
   return (
-    <div className='rounded-lg py-12 md:grid md:grid-cols-2 md:place-items-center'>
+    <div className='rounded-lg py-12 md:grid md:grid-cols-2 md:place-items-center md:py-6'>
       <Link
-        to={`/product/${featuredProduct?.id}`}
+        to={`/product/${featuredProduct?.title}`}
         className='duration-200 hover:scale-105'>
         <ProductImage
           image={featuredProduct?.image}
@@ -29,7 +29,7 @@ const FeaturedProduct = ({
       </Link>
       <div>
         <Link
-          to={`/product/${featuredProduct?.id}`}
+          to={`/product/${featuredProduct?.title}`}
           className='duration-200 hover:text-blue-500'>
           <h3 className='my-4 text-lg font-bold md:text-2xl'>
             {featuredProduct?.title}
