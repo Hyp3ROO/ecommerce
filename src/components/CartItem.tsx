@@ -62,7 +62,7 @@ const CartItem = ({
           <select
             value={quantity}
             onChange={e => handleChange(e)}
-            className='p-1 dark:bg-gray-900'>
+            className='cursor-pointer rounded-lg border-none bg-blue-500 p-1 text-white'>
             <option value={1}>1</option>
             <option value={2}>2</option>
             <option value={3}>3</option>
