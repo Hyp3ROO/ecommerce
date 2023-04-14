@@ -9,7 +9,7 @@ type OrderItemProps = {
 
 const OrderItem = ({ order, products }: OrderItemProps) => {
   const renderedOrder = order?.map((order: any) => {
-    const foundOrder = products?.find((product: Product) => {
+    const product = products?.find((product: Product) => {
       if (order.title === product.title) {
         return product
       }
@@ -17,7 +17,7 @@ const OrderItem = ({ order, products }: OrderItemProps) => {
 
     return (
       <Link
-        to={`/product/${foundOrder?.title}`}
+        to={`/product/${product?.title}`}
         key={order.id}
         className='flex flex-col items-center justify-center text-center duration-200 hover:scale-105'>
         <ProductImage
