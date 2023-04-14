@@ -19,7 +19,7 @@ const CartItem = ({
 }: CartItemProps) => {
   const [quantity, setQuantity] = useState(cartItem.quantity)
 
-  const foundOrder = products?.find((product: Product) => {
+  const product = products?.find((product: Product) => {
     if (cartItem.title === product.title) {
       return product
     }
@@ -38,7 +38,7 @@ const CartItem = ({
   return (
     <div className='flex items-center gap-6 text-black dark:text-white md:gap-24'>
       <Link
-        to={`/product/${foundOrder?.id}`}
+        to={`/product/${product?.title}`}
         className='duration-200 hover:scale-105'>
         <ProductImage
           image={cartItem?.image}
@@ -48,7 +48,7 @@ const CartItem = ({
       </Link>
       <div className='flex flex-col gap-2'>
         <Link
-          to={`/product/${foundOrder?.id}`}
+          to={`/product/${product?.title}`}
           className='duration-200 hover:text-blue-500'>
           <h3 className='text-sm font-bold md:hidden'>
             {`${cartItem?.title.substring(0, 16)}...`}
