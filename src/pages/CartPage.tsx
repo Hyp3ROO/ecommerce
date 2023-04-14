@@ -17,7 +17,6 @@ type CartPageProps = {
   setCartItems: (cartItems: Product[]) => void
   deleteProductFromCart: (id: string) => void
   handleQuantityChange: (quantity: number, product: Product) => void
-  setOrders: (orders: Product[]) => void
   products: Product[]
 }
 
@@ -31,7 +30,6 @@ const CartPage = ({
   setCartItems,
   deleteProductFromCart,
   handleQuantityChange,
-  setOrders,
   products,
 }: CartPageProps) => {
   const [user] = useAuthState(auth)
@@ -75,6 +73,7 @@ const CartPage = ({
         await deleteDoc(doc(db, uid, cartItem.id))
       })
     }
+    products.map(product => (product.quantity = 0))
     setCartItems([])
     localStorage.setItem('cartItems', '[]')
     notify('Deleted all items from cart', 'red')
