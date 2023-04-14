@@ -1,41 +1,49 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getOneProduct } from '../api/api'
 import { Product } from '../types/Product'
 import ProductImage from '../components/ProductImage'
 import ReactLoading from 'react-loading'
 import Rating from '@mui/material/Rating'
+import { useQuery } from '@tanstack/react-query'
 
 type ProductDetailsProps = {
   addProductToCart: (product: Product) => void
+  cartItems: Product[]
+  products: Product[]
 }
 
-const ProductDetailsPage = ({ addProductToCart }: ProductDetailsProps) => {
-  const { id } = useParams()
-  const [productDetails, setProductDetails] = useState<Product>()
-  const [loading, setLoading] = useState(true)
-
-  const fetchOneProduct = async (id: string) => {
-    const productInfo = await getOneProduct(id)
-    setProductDetails(productInfo)
-    setLoading(false)
-  }
+const ProductDetailsPage = ({
+  addProductToCart,
+  cartItems,
+  products,
+}: ProductDetailsProps) => {
+  const { title } = useParams()
+  const productId = products.find(product => product.title.trim() === title)?.id
+  const productDetailsQuery = useQuery({
+    queryKey: ['productDetails'],
+    queryFn: () => productId && getOneProduct(productId),
+    refetchOnWindowFocus: false,
+  })
+  const productDetails: Product = productDetailsQuery.isSuccess
+    ? productDetailsQuery.data
+    : {}
+  const cartItem = cartItems.find(
+    cartItem => cartItem.title === productDetails.title
+  )
+  if (cartItem?.quantity) productDetails.quantity = cartItem.quantity
+  const [quantity, setQuantity] = useState(1)
 
   const handleClick = () => {
-    if (productDetails) {
-      addProductToCart(productDetails)
-    }
+    cartItem?.quantity
+      ? (productDetails.quantity = quantity - 1 + cartItem.quantity)
+      : (productDetails.quantity = quantity - 1)
+    addProductToCart(productDetails)
   }
-
-  useEffect(() => {
-    if (id) {
-      fetchOneProduct(id)
-    }
-  }, [id])
 
   return (
     <>
-      {loading ? (
+      {productDetailsQuery.isLoading || productDetailsQuery.isFetching ? (
         <ReactLoading
           type='bars'
           width={'20%'}
@@ -63,8 +71,21 @@ const ProductDetailsPage = ({ addProductToCart }: ProductDetailsProps) => {
             </p>
             <p className='my-2 text-lg font-bold md:text-xl'>{`${productDetails?.price}$`}</p>
             <p className='mb-6 text-sm'>{productDetails?.description}</p>
+            <div className='text-sm md:text-lg'>
+              <label className='mr-4'>Quantity</label>
+              <select
+                value={quantity}
+                onChange={e => setQuantity(+e.currentTarget.value)}
+                className='my-3 cursor-pointer rounded-lg border-none bg-blue-500 p-1 text-white'>
+                <option value={1}>1</option>
+                <option value={2}>2</option>
+                <option value={3}>3</option>
+                <option value={4}>4</option>
+                <option value={5}>5</option>
+              </select>
+            </div>
             <button
-              className='rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
+              className='mt-2 rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
               onClick={handleClick}>
               Add to Cart
             </button>
