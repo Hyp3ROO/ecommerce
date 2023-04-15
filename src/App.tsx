@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react'
-import { getProducts } from './api/api'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Product } from './types/Product'
 import { toast, Toaster } from 'react-hot-toast'
@@ -23,20 +22,23 @@ import { useAuthState } from 'react-firebase-hooks/auth'
 import FeaturedProducts from './components/FeaturedProducts'
 import OrdersPage from './pages/OrdersPage'
 import ProductDetailsPage from './pages/ProductDetailsPage'
-import { useQuery } from '@tanstack/react-query'
 import NotFound from './components/NotFound'
+import ProductsCategories from './components/ProductsCategories'
+import useGetProducts from './hooks/use-get-products'
+import useGetCategories from './hooks/use-get-categories'
 
 const App = () => {
-  const productsQuery = useQuery({
-    queryKey: ['products'],
-    queryFn: getProducts,
-    refetchOnWindowFocus: false,
-  })
-  const products = productsQuery.isSuccess ? productsQuery.data : []
-  const featuredProducts = products.filter((product: Product) => {
-    return product.rating.rate > 4.5
-  })
   const [user] = useAuthState(auth)
+  const [selectedCategory, setSelectedCategory] = useState('')
+  const productsQuery = useGetProducts(selectedCategory)
+  const products = productsQuery.isSuccess ? productsQuery.data : []
+  const featuredProductsQuery = useGetProducts('')
+  const featuredProducts = featuredProductsQuery.isSuccess
+    ? featuredProductsQuery.data.filter(
+        (product: Product) => product.rating.rate > 4.5
+      )
+    : []
+  const productsCategoriesQuery = useGetCategories()
   const [orders, setOrders] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>(() => {
     return JSON.parse(localStorage.getItem('cartItems') || '[]')
@@ -160,6 +162,10 @@ const App = () => {
                   featuredProducts={featuredProducts}
                   addProductToCart={addProductToCart}
                   productsQuery={productsQuery}
+                />
+                <ProductsCategories
+                  setSelectedCategory={setSelectedCategory}
+                  productsCategoriesQuery={productsCategoriesQuery}
                 />
                 <AllProductsList
                   products={products}
