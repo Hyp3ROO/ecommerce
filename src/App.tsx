@@ -59,9 +59,18 @@ const App = () => {
     )
     if (auth.currentUser) {
       const { uid } = auth.currentUser
-      await addDoc(collection(db, uid), {
-        cartItem: product,
-      })
+      const productExistInCart = cartItems.find(
+        cartItem => cartItem.title === product.title
+      )
+      if (productExistInCart !== undefined) {
+        await updateDoc(doc(db, uid, productExistInCart.id), {
+          cartItem: product,
+        })
+      } else {
+        await addDoc(collection(db, uid), {
+          cartItem: product,
+        })
+      }
     }
     toast.success('Added item to cart')
   }
