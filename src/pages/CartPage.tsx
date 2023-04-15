@@ -20,11 +20,6 @@ type CartPageProps = {
   products: Product[]
 }
 
-const notify = (text: string, color: string) =>
-  toast(text, {
-    style: { color },
-  })
-
 const CartPage = ({
   cartItems,
   setCartItems,
@@ -46,7 +41,7 @@ const CartPage = ({
 
   const handleOrder = async () => {
     if (!user) {
-      notify('You need to be signed in to make an order', 'red')
+      toast.error('You need to be signed in to make an order')
       return
     }
     if (auth.currentUser) {
@@ -63,7 +58,7 @@ const CartPage = ({
     }
     setCartItems([])
     localStorage.setItem('cartItems', '[]')
-    notify('You made an order!', 'green')
+    toast.success('You made an order!')
   }
 
   const handleDeleteAll = () => {
@@ -76,7 +71,7 @@ const CartPage = ({
     products.map(product => (product.quantity = 0))
     setCartItems([])
     localStorage.setItem('cartItems', '[]')
-    notify('Deleted all items from cart', 'red')
+    toast.success('Deleted all items from cart')
   }
 
   useEffect(() => {

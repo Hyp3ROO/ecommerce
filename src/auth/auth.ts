@@ -6,32 +6,27 @@ import {
 import { auth } from './firebase'
 import toast from 'react-hot-toast'
 
-const notify = (text: string, color: string) =>
-  toast(text, {
-    style: { color },
-  })
-
 const createUser = (email: string, password: string) => {
   createUserWithEmailAndPassword(auth, email, password)
-    .then(() => notify('Created user', 'green'))
+    .then(() => toast.success('Created user'))
     .catch(() => {
-      notify('Unable to create user. Try again!', 'red')
+      toast.error('Unable to create user. Try again!')
     })
 }
 
 const signInUser = (email: string, password: string) => {
   signInWithEmailAndPassword(auth, email, password)
-    .then(() => notify('Signed in', 'green'))
+    .then(() => toast.success('Signed in'))
     .catch(() => {
-      notify('Unable to sign in. Try again!', 'red')
+      toast.error('Unable to sign in. Try again!')
     })
 }
 
 const signOutUser = () => {
   signOut(auth)
-    .then(() => notify('Signed out', 'red'))
+    .then(() => toast.success('Signed out'))
     .catch(() => {
-      notify('Unable to sign out. Try again!', 'red')
+      toast.error('Unable to sign out. Try again!')
     })
 }
 

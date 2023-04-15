@@ -24,11 +24,7 @@ import FeaturedProducts from './components/FeaturedProducts'
 import OrdersPage from './pages/OrdersPage'
 import ProductDetailsPage from './pages/ProductDetailsPage'
 import { useQuery } from '@tanstack/react-query'
-
-const notify = (text: string, color: string) =>
-  toast(text, {
-    style: { color },
-  })
+import NotFound from './components/NotFound'
 
 const App = () => {
   const productsQuery = useQuery({
@@ -50,11 +46,11 @@ const App = () => {
     if (product.quantity < 5) {
       product.quantity++
     } else {
-      notify('You can only have 5 of the same thing in your cart!', 'orange')
+      toast.error('You can only have 5 of the same thing in your cart!')
       return
     }
     const newCartItems = cartItems.filter(
-      cartItem => cartItem.id !== product.id
+      cartItem => cartItem.title !== product.title
     )
     setCartItems([...newCartItems, product])
     localStorage.setItem(
@@ -67,14 +63,14 @@ const App = () => {
         cartItem: product,
       })
     }
-    notify('Added item to cart', 'green')
+    toast.success('Added item to cart')
   }
 
   const deleteProductFromCart = async (id: string) => {
     const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id)
     setCartItems(updatedCartItems)
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
-    notify('Deleted item from cart', 'red')
+    toast.error('Deleted item from cart')
     if (auth.currentUser) {
       const { uid } = auth.currentUser
       await deleteDoc(doc(db, uid, id))
@@ -90,7 +86,7 @@ const App = () => {
     })
     setCartItems(updatedCartItems)
     localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
-    notify('Changed quantity of item', 'royalblue')
+    toast.success('Changed quantity of item')
     if (auth.currentUser) {
       const { uid } = auth.currentUser
       await updateDoc(doc(db, uid, product.id), {
@@ -204,18 +200,10 @@ const App = () => {
           />
           <Route path='/sign-in' element={<SignInPage />} />
           <Route path='/sign-up' element={<SignUpPage />} />
+          <Route path='*' element={<NotFound />} />
         </Routes>
       </main>
-      <Toaster
-        toastOptions={{
-          position: 'bottom-right',
-          style: {
-            background: 'white',
-            border: '.5px solid gray',
-          },
-          duration: 1200,
-        }}
-      />
+      <Toaster />
     </div>
   )
 }
