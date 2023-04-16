@@ -17,7 +17,7 @@ const OrderItem = ({ order, products }: OrderItemProps) => {
 
     return (
       <Link
-        to={`/product/${product?.title}`}
+        to={`/product/${product?.title.replace('/', '')}`}
         key={order.id}
         className='flex flex-col items-center justify-center text-center duration-200 hover:scale-105'>
         <ProductImage
