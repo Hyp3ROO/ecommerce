@@ -57,7 +57,7 @@ const CartPage = ({
       })
     }
     setCartItems([])
-    localStorage.setItem('cartItems', '[]')
+    localStorage.cartItems = []
     toast.success('You made an order!')
   }
 
@@ -70,7 +70,7 @@ const CartPage = ({
     }
     products.map(product => (product.quantity = 0))
     setCartItems([])
-    localStorage.setItem('cartItems', '[]')
+    localStorage.cartItems = []
     toast.success('Deleted all items from cart')
   }
 
