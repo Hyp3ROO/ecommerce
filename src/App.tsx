@@ -2,11 +2,6 @@ import { useEffect, useState } from 'react'
 import { Navigate, Route, Routes } from 'react-router-dom'
 import { Product } from './types/Product'
 import { toast, Toaster } from 'react-hot-toast'
-import NavBar from './components/NavBar'
-import AllProductsList from './components/AllProductsList'
-import SignInPage from './pages/SignInPage'
-import SignUpPage from './pages/SignUpPage'
-import CartPage from './pages/CartPage'
 import {
   addDoc,
   collection,
@@ -19,13 +14,18 @@ import {
 } from 'firebase/firestore'
 import { auth, db } from './auth/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import useGetProducts from './hooks/use-get-products'
+import useGetCategories from './hooks/use-get-categories'
+import NavBar from './components/NavBar'
+import AllProductsList from './components/AllProductsList'
+import SignInPage from './pages/SignInPage'
+import SignUpPage from './pages/SignUpPage'
+import CartPage from './pages/CartPage'
 import FeaturedProducts from './components/FeaturedProducts'
 import OrdersPage from './pages/OrdersPage'
 import ProductDetailsPage from './pages/ProductDetailsPage'
 import NotFound from './components/NotFound'
 import ProductsCategories from './components/ProductsCategories'
-import useGetProducts from './hooks/use-get-products'
-import useGetCategories from './hooks/use-get-categories'
 
 const App = () => {
   const [user] = useAuthState(auth)
@@ -41,31 +41,38 @@ const App = () => {
   const productsCategoriesQuery = useGetCategories()
   const [orders, setOrders] = useState<Product[]>([])
   const [cartItems, setCartItems] = useState<Product[]>(() => {
-    return JSON.parse(localStorage.getItem('cartItems') || '[]')
+    return JSON.parse(localStorage.cartItems || '[]')
   })
 
   const addProductToCart = async (product: Product) => {
-    if (product.quantity < 5) {
+    const cartItem = cartItems.find(
+      cartItem => cartItem.title === (product?.title || '')
+    )
+    if (product.quantity && product.quantity < 5) {
       product.quantity++
+    } else if (cartItem?.quantity) {
+      if (cartItem?.quantity < 5) {
+        product.quantity = cartItem.quantity + 1
+      } else {
+        toast.error('You can only have 5 of the same thing in your cart!')
+        return
+      }
     } else {
-      toast.error('You can only have 5 of the same thing in your cart!')
-      return
+      product.quantity = 1
     }
     const newCartItems = cartItems.filter(
       cartItem => cartItem.title !== product.title
     )
     setCartItems([...newCartItems, product])
-    localStorage.setItem(
-      'cartItems',
-      JSON.stringify([...newCartItems, product])
-    )
+    localStorage.cartItems = JSON.stringify([...newCartItems, product])
     if (auth.currentUser) {
       const { uid } = auth.currentUser
-      const productExistInCart = cartItems.find(
+      const productExistsInCart = cartItems.find(
         cartItem => cartItem.title === product.title
       )
-      if (productExistInCart !== undefined) {
-        await updateDoc(doc(db, uid, productExistInCart.id), {
+      console.log(productExistsInCart)
+      if (productExistsInCart !== undefined) {
+        await updateDoc(doc(db, uid, productExistsInCart.id), {
           cartItem: product,
         })
       } else {
@@ -80,7 +87,7 @@ const App = () => {
   const deleteProductFromCart = async (id: string) => {
     const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id)
     setCartItems(updatedCartItems)
-    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
+    localStorage.cartItems = JSON.stringify(updatedCartItems)
     toast.error('Deleted item from cart')
     if (auth.currentUser) {
       const { uid } = auth.currentUser
@@ -96,7 +103,7 @@ const App = () => {
       return cartItem
     })
     setCartItems(updatedCartItems)
-    localStorage.setItem('cartItems', JSON.stringify(updatedCartItems))
+    localStorage.cartItems = JSON.stringify(updatedCartItems)
     toast.success('Changed quantity of item')
     if (auth.currentUser) {
       const { uid } = auth.currentUser
@@ -209,7 +216,6 @@ const App = () => {
               <ProductDetailsPage
                 addProductToCart={addProductToCart}
                 cartItems={cartItems}
-                products={products}
               />
             }
           />
