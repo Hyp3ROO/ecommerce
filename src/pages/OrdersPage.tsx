@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { Fragment, useState } from 'react'
 import OrderItem from '../components/OrderItem'
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
 import { Product } from '../types/Product'
@@ -39,7 +39,7 @@ const OrdersPage = ({ orders, products }: OrdersProps) => {
     }
 
     return (
-      <>
+      <Fragment key={index}>
         <div className='flex flex-col items-center gap-4 text-center lg:grid lg:grid-flow-col lg:gap-24 lg:px-24'>
           <p className='font-bold'>Order: #{order.id}</p>
           <p className='text-xl font-bold'>Total: {order.total}$</p>
@@ -68,11 +68,9 @@ const OrdersPage = ({ orders, products }: OrdersProps) => {
           <div className='w-full rounded-br-full rounded-bl-full bg-blue-500 p-1.5 lg:hidden' />
         </div>
         <div className='flex flex-wrap items-center justify-center gap-8 md:gap-16'>
-          {isExpanded && (
-            <OrderItem key={order.id} order={order.order} products={products} />
-          )}
+          {isExpanded && <OrderItem order={order.order} products={products} />}
         </div>
-      </>
+      </Fragment>
     )
   })
 
