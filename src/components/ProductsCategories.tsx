@@ -4,6 +4,13 @@ import jewelery from '../assets/jewellery.jpg'
 import electronics from '../assets/electronics.jpg'
 import allCategories from '../assets/allcategories.jpg'
 import ReactLoading from 'react-loading'
+import { UseQueryResult } from '@tanstack/react-query'
+import toast from 'react-hot-toast'
+
+type ProductsCategoriesProps = {
+  setSelectedCategory: (category: string) => void
+  productsCategoriesQuery: UseQueryResult<any, unknown>
+}
 
 type Images = {
   "men's clothing": string
@@ -15,7 +22,7 @@ type Images = {
 const ProductsCategories = ({
   setSelectedCategory,
   productsCategoriesQuery,
-}: any) => {
+}: ProductsCategoriesProps) => {
   const productsCategories = productsCategoriesQuery.isSuccess
     ? productsCategoriesQuery.data
     : ''
@@ -35,24 +42,25 @@ const ProductsCategories = ({
         setSelectedCategory(selectedCategory)
       }
     }
+    toast.success('Selected category: ' + selectedCategory)
   }
 
   return (
-    <div className='relative py-4'>
-      <div className='pb-4'>
+    <div className='py-4'>
+      <div className='pb-4 md:pb-10'>
         <h2 className='mb-2 text-center text-3xl font-bold uppercase tracking-widest md:text-left'>
           Categories
         </h2>
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
-        <div className='mt-6 flex min-h-[10rem] flex-col justify-around gap-4 md:grid md:grid-flow-col'>
+        <div className='relative mt-6 flex min-h-[10rem] flex-col justify-around gap-4 md:grid md:grid-flow-col'>
           {productsCategoriesQuery.isLoading ||
           productsCategoriesQuery.isFetching ? (
             <ReactLoading
               type='bars'
-              width={'20%'}
-              height={'20%'}
+              width={'15%'}
+              height={'15%'}
               color='rgb(59 130 246)'
-              className='absolute top-10 left-[50%] -translate-x-1/2'
+              className='absolute top-10 left-[50%] -translate-x-1/2 md:top-0'
             />
           ) : (
             <>
