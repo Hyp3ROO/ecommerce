@@ -1,51 +1,52 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { getOneProduct } from '../api/api'
 import { Product } from '../types/Product'
+import useGetProduct from '../hooks/use-get-product'
 import ProductImage from '../components/ProductImage'
 import ReactLoading from 'react-loading'
 import Rating from '@mui/material/Rating'
-import { useQuery } from '@tanstack/react-query'
-import toast from 'react-hot-toast'
 
 type ProductDetailsProps = {
   addProductToCart: (product: Product) => void
   cartItems: Product[]
-  products: Product[]
 }
 
 const ProductDetailsPage = ({
   addProductToCart,
   cartItems,
-  products,
 }: ProductDetailsProps) => {
   const navigate = useNavigate()
   const { title } = useParams()
-  const productId = products.find(product => product.title.trim() === title)?.id
-  const productDetailsQuery = useQuery({
-    queryKey: ['productDetails'],
-    queryFn: () => productId && getOneProduct(productId),
-    refetchOnWindowFocus: false,
-    onError: (error: Error) =>
-      toast.error('Something went wrong: ' + error.message),
-  })
-  const productDetails: Product = productDetailsQuery.data
+  const storedTitle = (localStorage.storedTitle = title)
+  const productDetailsQuery = useGetProduct(title || storedTitle)
+  const productDetails = productDetailsQuery.data
   const cartItem = cartItems.find(
-    cartItem => cartItem.title === productDetails.title
+    cartItem => cartItem.title === (productDetails?.title || '')
   )
-  if (cartItem?.quantity) productDetails.quantity = cartItem.quantity
+  if (productDetails) {
+    if (cartItem?.quantity) {
+      productDetails.quantity = cartItem.quantity
+    } else {
+      productDetails.quantity = 1
+    }
+  }
   const [quantity, setQuantity] = useState(1)
 
   const handleClick = () => {
-    cartItem?.quantity
-      ? (productDetails.quantity = quantity - 1 + cartItem.quantity)
-      : (productDetails.quantity = quantity - 1)
-    addProductToCart(productDetails)
+    if (productDetails) {
+      cartItem?.quantity
+        ? (productDetails.quantity = quantity - 1 + cartItem.quantity)
+        : (productDetails.quantity = quantity - 1)
+
+      addProductToCart(productDetails)
+    }
   }
 
   useEffect(() => {
-    if (!productId) navigate('/404')
-  }, [productId])
+    if (productDetailsQuery.isSuccess) {
+      if (!productDetails) navigate('/404')
+    }
+  })
 
   return (
     <>
@@ -61,23 +62,23 @@ const ProductDetailsPage = ({
         ) : (
           <div className='grid grid-flow-row place-items-center gap-8 px-4 text-center md:mt-8 md:grid-cols-2 md:gap-12 md:px-16 lg:px-32'>
             <ProductImage
-              image={productDetails.image}
-              alt={productDetails.title}
+              image={productDetails?.image}
+              alt={productDetails?.title}
               className='h-[12rem] rounded-lg bg-white object-contain p-4 md:col-start-1 md:col-end-3 md:h-[20rem]'
             />
             <div className='grid grid-flow-row place-items-center'>
-              <h1 className='font-bold md:text-2xl'>{productDetails.title}</h1>
+              <h1 className='font-bold md:text-2xl'>{productDetails?.title}</h1>
               <p className='my-2 flex items-center justify-start gap-1 font-bold'>
                 <Rating
                   name='read-only'
-                  value={productDetails.rating.rate}
+                  value={productDetails?.rating.rate}
                   precision={0.1}
                   readOnly
                 />
-                ({productDetails.rating.count})
+                ({productDetails?.rating.count})
               </p>
-              <p className='my-2 text-lg font-bold md:text-xl'>{`${productDetails.price}$`}</p>
-              <p className='mb-6 text-sm'>{productDetails.description}</p>
+              <p className='my-2 text-lg font-bold md:text-xl'>{`${productDetails?.price}$`}</p>
+              <p className='mb-6 text-sm'>{productDetails?.description}</p>
               <div className='text-sm md:text-lg'>
                 <label className='mr-4'>Quantity</label>
                 <select
