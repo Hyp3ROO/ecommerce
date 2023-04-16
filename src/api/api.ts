@@ -1,4 +1,5 @@
 import axios, { AxiosError } from 'axios'
+import { toast } from 'react-hot-toast'
 
 const API_URL = 'https://fakestoreapi.com/products'
 
@@ -8,7 +9,7 @@ const getProducts = async () => {
     return response.data
   } catch (error) {
     const err = error as AxiosError
-    throw new Error(err.message)
+    toast.error(err.message)
   }
 }
 
@@ -18,7 +19,7 @@ const getCategories = async () => {
     return response.data
   } catch (error) {
     const err = error as AxiosError
-    throw new Error(err.message)
+    toast.error(err.message)
   }
 }
 

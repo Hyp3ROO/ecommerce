@@ -42,7 +42,8 @@ const FeaturedProducts = ({
             infiniteLoop
             emulateTouch
             transitionTime={1000}
-            showThumbs={false}>
+            showThumbs={false}
+            preventMovementUntilSwipeScrollTolerance>
             {featuredProductsList}
           </Carousel>
         ) : (

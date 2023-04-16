@@ -47,7 +47,7 @@ const CartPage = ({
     if (auth.currentUser) {
       const { uid } = auth.currentUser
       await addDoc(collection(db, 'orders'), {
-        order: cartItems,
+        orderDetails: cartItems,
         uid,
         total,
         createdAt: serverTimestamp(),

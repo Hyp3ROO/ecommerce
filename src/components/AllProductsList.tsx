@@ -6,7 +6,7 @@ import { UseQueryResult } from '@tanstack/react-query/build/lib/types'
 type ProductsProps = {
   products: Product[]
   addProductToCart: (product: Product) => void
-  productsQuery: UseQueryResult<any, unknown>
+  productsQuery: UseQueryResult
 }
 
 const ProductsList = ({

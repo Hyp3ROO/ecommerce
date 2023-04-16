@@ -3,14 +3,14 @@ import ProductImage from './ProductImage'
 import { Product } from '../types/Product'
 
 type OrderItemProps = {
-  order?: Product[]
+  orderDetails?: Product[]
   products: Product[]
 }
 
-const OrderItem = ({ order, products }: OrderItemProps) => {
-  const renderedOrder = order?.map((order: any) => {
+const OrderItem = ({ orderDetails, products }: OrderItemProps) => {
+  const renderedOrder = orderDetails?.map((orderDetails: Product) => {
     const product = products?.find((product: Product) => {
-      if (order.title === product.title) {
+      if (orderDetails.title === product.title) {
         return product
       }
     })
@@ -18,14 +18,14 @@ const OrderItem = ({ order, products }: OrderItemProps) => {
     return (
       <Link
         to={`/product/${product?.title.replace('/', '')}`}
-        key={order.id}
+        key={orderDetails.id}
         className='flex flex-col items-center justify-center text-center duration-200 hover:scale-105'>
         <ProductImage
-          image={order.image}
-          alt={order.title}
+          image={orderDetails.image}
+          alt={orderDetails.title}
           className='h-[4rem] rounded-lg bg-white object-contain p-4 md:h-[8rem]'
         />
-        <span className='pt-1 font-bold'>{`x${order.quantity}`}</span>
+        <span className='pt-1 font-bold'>{`x${orderDetails.quantity}`}</span>
       </Link>
     )
   })

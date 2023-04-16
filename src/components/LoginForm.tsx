@@ -20,12 +20,12 @@ type FormProps = {
 
 const LoginForm = ({ formProps }: FormProps) => {
   const location = useLocation()
+  const navigate = useNavigate()
   const [user] = useAuthState(auth)
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [emailError, setEmailError] = useState('')
   const [passwordError, setPasswordError] = useState('')
-  const navigate = useNavigate()
   const emailRegExp = new RegExp(
     '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'
   )

@@ -1,7 +1,6 @@
 import { useQuery } from '@tanstack/react-query'
 import { getProducts } from '../api/api'
 import { Product } from '../types/Product'
-import toast from 'react-hot-toast'
 
 const useGetProduct = (productTitle: string | undefined) => {
   return useQuery({
@@ -17,8 +16,6 @@ const useGetProduct = (productTitle: string | undefined) => {
       }
     },
     refetchOnWindowFocus: false,
-    onError: (error: Error) =>
-      toast.error('Something went wrong: ' + error.message),
   })
 }
 export default useGetProduct

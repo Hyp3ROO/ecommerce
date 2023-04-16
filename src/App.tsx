@@ -26,10 +26,15 @@ import OrdersPage from './pages/OrdersPage'
 import ProductDetailsPage from './pages/ProductDetailsPage'
 import NotFound from './components/NotFound'
 import ProductsCategories from './components/ProductsCategories'
+import { Order } from './types/Order'
 
 const App = () => {
   const [user] = useAuthState(auth)
   const [selectedCategory, setSelectedCategory] = useState('')
+  const [orders, setOrders] = useState<Order[]>([])
+  const [cartItems, setCartItems] = useState<Product[]>(() => {
+    return JSON.parse(localStorage.cartItems || '[]')
+  })
   const productsQuery = useGetProducts(selectedCategory)
   const products = productsQuery.isSuccess ? productsQuery.data : []
   const featuredProductsQuery = useGetProducts('')
@@ -39,10 +44,6 @@ const App = () => {
       )
     : []
   const productsCategoriesQuery = useGetCategories()
-  const [orders, setOrders] = useState<Product[]>([])
-  const [cartItems, setCartItems] = useState<Product[]>(() => {
-    return JSON.parse(localStorage.cartItems || '[]')
-  })
 
   const addProductToCart = async (product: Product) => {
     const cartItem = cartItems.find(
@@ -70,7 +71,6 @@ const App = () => {
       const productExistsInCart = cartItems.find(
         cartItem => cartItem.title === product.title
       )
-      console.log(productExistsInCart)
       if (productExistsInCart !== undefined) {
         await updateDoc(doc(db, uid, productExistsInCart.id), {
           cartItem: product,
@@ -104,7 +104,6 @@ const App = () => {
     })
     setCartItems(updatedCartItems)
     localStorage.cartItems = JSON.stringify(updatedCartItems)
-    toast.success('Changed quantity of item')
     if (auth.currentUser) {
       const { uid } = auth.currentUser
       await updateDoc(doc(db, uid, product.id), {
@@ -114,6 +113,7 @@ const App = () => {
         },
       })
     }
+    toast.success('Changed quantity of item')
   }
 
   const fetchCart = async () => {
@@ -121,7 +121,7 @@ const App = () => {
       const { uid } = auth.currentUser
       const q = query(collection(db, uid))
       onSnapshot(q, querySnapshot => {
-        let cartItems: any[] = []
+        let cartItems: Product[] = []
         querySnapshot.forEach(doc => {
           cartItems.push({ ...doc.data().cartItem, id: doc.id })
         })
@@ -135,7 +135,7 @@ const App = () => {
       const { uid } = auth.currentUser
       const q = query(collection(db, 'orders'), orderBy('createdAt', 'desc'))
       onSnapshot(q, querySnapshot => {
-        let orders: any[] = []
+        let orders: Order[] = []
         querySnapshot.forEach(doc => {
           if (uid === doc.data().uid) {
             orders.push({

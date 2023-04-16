@@ -2,16 +2,7 @@ import { Fragment, useState } from 'react'
 import OrderItem from '../components/OrderItem'
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
 import { Product } from '../types/Product'
-
-type Order = {
-  id: string
-  total?: number
-  uid?: string
-  createdAt?: {
-    seconds: number
-  }
-  order?: Product[]
-}
+import { Order } from '../types/Order'
 
 type OrdersProps = {
   orders: Order[]
@@ -68,7 +59,9 @@ const OrdersPage = ({ orders, products }: OrdersProps) => {
           <div className='w-full rounded-br-full rounded-bl-full bg-blue-500 p-1.5 lg:hidden' />
         </div>
         <div className='flex flex-wrap items-center justify-center gap-8 md:gap-16'>
-          {isExpanded && <OrderItem order={order.order} products={products} />}
+          {isExpanded && (
+            <OrderItem orderDetails={order.orderDetails} products={products} />
+          )}
         </div>
       </Fragment>
     )
