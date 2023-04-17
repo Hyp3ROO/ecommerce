@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Product } from '../types/Product'
-import useGetProduct from '../hooks/use-get-product'
+import useGetProduct from '../hooks/useGetProduct'
 import ProductImage from '../components/ProductImage'
 import ReactLoading from 'react-loading'
 import Rating from '@mui/material/Rating'
