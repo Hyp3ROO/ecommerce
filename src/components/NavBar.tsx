@@ -10,6 +10,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import Tooltip from '@mui/material/Tooltip'
 import { BsMoon, BsSun } from 'react-icons/bs'
 import useStoreContext from '../hooks/useStoreContext'
+import Button from './Button'
 
 const NavBar = () => {
   const { cartItems } = useStoreContext()
@@ -98,14 +99,14 @@ const NavBar = () => {
           </li>
           {!user ? (
             <li>
-              <button
-                className='rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
+              <Button
+                lg
                 onClick={() => {
                   navigate('/sign-in')
                   setIsOpen(false)
                 }}>
                 Sign In
-              </button>
+              </Button>
             </li>
           ) : (
             <>
@@ -116,11 +117,9 @@ const NavBar = () => {
                 </li>
               </Link>
               <li>
-                <button
-                  className='rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
-                  onClick={handleSignOut}>
+                <Button lg onClick={handleSignOut}>
                   Sign Out
-                </button>
+                </Button>
               </li>
             </>
           )}
@@ -176,11 +175,9 @@ const NavBar = () => {
           </li>
           {!user ? (
             <li>
-              <Link to='/sign-in'>
-                <button className='rounded-lg border border-blue-700 px-3 py-1.5 text-center text-sm text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800 md:px-4 md:py-2 lg:px-6 lg:py-2.5'>
-                  Sign In
-                </button>
-              </Link>
+              <Button sm onClick={() => navigate('/sign-in')}>
+                Sign In
+              </Button>
             </li>
           ) : (
             <>
@@ -192,11 +189,9 @@ const NavBar = () => {
                 </Tooltip>
               </li>
               <li>
-                <button
-                  className='rounded-lg border border-blue-700 px-3 py-1.5 text-center text-sm text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800 md:px-4 md:py-2 lg:px-6 lg:py-2.5'
-                  onClick={handleSignOut}>
+                <Button sm onClick={handleSignOut}>
                   Sign Out
-                </button>
+                </Button>
               </li>
             </>
           )}

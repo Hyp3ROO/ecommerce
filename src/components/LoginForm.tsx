@@ -6,6 +6,7 @@ import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth'
 import { auth } from '../auth/firebase'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
+import Button from './Button'
 
 type FormProps = {
   formProps: {
@@ -100,9 +101,9 @@ const LoginForm = ({ formProps }: FormProps) => {
         <p className='text-sm font-bold text-red-500'>
           {passwordError.length > 0 ? passwordError : ''}
         </p>
-        <button className='mt-6 rounded-lg border border-blue-700 px-8 py-3 text-center text-sm text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'>
+        <Button md mt>
           {formProps.btnText}
-        </button>
+        </Button>
       </form>
       <div className='my-6 w-[50%] max-w-[25rem] rounded-br-full rounded-bl-full bg-blue-500 p-1.5' />
       <button

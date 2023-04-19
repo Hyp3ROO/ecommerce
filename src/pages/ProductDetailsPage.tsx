@@ -6,6 +6,7 @@ import ProductImage from '../components/ProductImage'
 import ReactLoading from 'react-loading'
 import Rating from '@mui/material/Rating'
 import useStoreContext from '../hooks/useStoreContext'
+import Button from '../components/Button'
 
 const ProductDetailsPage = () => {
   const { cartItems, addProductToCart } = useStoreContext()
@@ -73,7 +74,7 @@ const ProductDetailsPage = () => {
               </p>
               <p className='my-2 text-lg font-bold md:text-xl'>{`${productDetails?.price}$`}</p>
               <p className='mb-6 text-sm'>{productDetails?.description}</p>
-              <div className='text-sm md:text-lg'>
+              <div className='mb-2 text-sm md:text-lg'>
                 <label className='mr-4'>Quantity</label>
                 <select
                   value={quantity}
@@ -86,11 +87,9 @@ const ProductDetailsPage = () => {
                   <option value={5}>5</option>
                 </select>
               </div>
-              <button
-                className='mt-2 rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
-                onClick={handleClick}>
+              <Button lg onClick={handleClick}>
                 Add to Cart
-              </button>
+              </Button>
             </div>
           </div>
         )

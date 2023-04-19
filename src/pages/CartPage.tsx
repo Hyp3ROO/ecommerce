@@ -12,6 +12,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore'
 import useStoreContext from '../hooks/useStoreContext'
+import Button from '../components/Button'
 
 const CartPage = () => {
   const { cartItems, setCartItems, products } = useStoreContext()
@@ -71,11 +72,9 @@ const CartPage = () => {
           <div>
             <div className='flex items-center justify-between pb-8'>
               <h2 className='text-2xl font-bold md:text-3xl'>Cart:</h2>
-              <button
-                className='rounded-lg border border-blue-700 px-6 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
-                onClick={handleDeleteAll}>
+              <Button md onClick={handleDeleteAll}>
                 Delete All
-              </button>
+              </Button>
             </div>
             <div className='grid gap-12'>{renderedCartItems}</div>
           </div>
@@ -84,11 +83,9 @@ const CartPage = () => {
               <h2 className='text-2xl font-bold md:text-3xl'>Total:</h2>
               <p className='text-xl md:text-2xl'>{total}$</p>
             </div>
-            <button
-              className='rounded-lg border border-blue-700 px-10 py-2.5 text-center text-lg text-blue-700 duration-200 hover:bg-blue-800 hover:text-white focus:outline-none focus:ring-4 focus:ring-blue-300 dark:border-blue-500 dark:text-blue-500 dark:hover:bg-blue-600 dark:hover:text-white dark:focus:ring-blue-800'
-              onClick={handleOrder}>
+            <Button lg onClick={handleOrder}>
               Make an Order
-            </button>
+            </Button>
           </div>
         </div>
       ) : (
