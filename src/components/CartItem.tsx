@@ -3,20 +3,15 @@ import { BsFillTrashFill } from 'react-icons/bs'
 import ProductImage from './ProductImage'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
+import useStoreContext from '../hooks/useStoreContext'
 
 type CartItemProps = {
   cartItem: Product
-  deleteProductFromCart: (id: string) => void
-  handleQuantityChange: (quantity: number, product: Product) => void
-  products: Product[]
 }
 
-const CartItem = ({
-  cartItem,
-  deleteProductFromCart,
-  handleQuantityChange,
-  products,
-}: CartItemProps) => {
+const CartItem = ({ cartItem }: CartItemProps) => {
+  const { products, deleteProductFromCart, handleQuantityChange } =
+    useStoreContext()
   const [quantity, setQuantity] = useState(cartItem.quantity)
 
   const product = products?.find((product: Product) => {

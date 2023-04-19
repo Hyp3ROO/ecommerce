@@ -2,13 +2,14 @@ import ProductImage from './ProductImage'
 import { Product } from '../types/Product'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
+import useStoreContext from '../hooks/useStoreContext'
 
 type ProductProps = {
   product: Product
-  addProductToCart: (product: Product) => void
 }
 
-const ProductCard = ({ product, addProductToCart }: ProductProps) => {
+const ProductCard = ({ product }: ProductProps) => {
+  const { addProductToCart } = useStoreContext()
   return (
     <div className='flex flex-col items-center justify-center rounded-lg py-6 px-2'>
       <Link

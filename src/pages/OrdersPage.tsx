@@ -1,15 +1,11 @@
 import { Fragment, useState } from 'react'
 import OrderItem from '../components/OrderItem'
 import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
-import { Product } from '../types/Product'
 import { Order } from '../types/Order'
+import useStoreContext from '../hooks/useStoreContext'
 
-type OrdersProps = {
-  orders: Order[]
-  products: Product[]
-}
-
-const OrdersPage = ({ orders, products }: OrdersProps) => {
+const OrdersPage = () => {
+  const { orders } = useStoreContext()
   const [expandedIndex, setExpandedIndex] = useState(-1)
 
   const handleClick = (index: number) => {
@@ -59,9 +55,7 @@ const OrdersPage = ({ orders, products }: OrdersProps) => {
           <div className='w-full rounded-br-full rounded-bl-full bg-blue-500 p-1.5 lg:hidden' />
         </div>
         <div className='flex flex-wrap items-center justify-center gap-8 md:gap-16'>
-          {isExpanded && (
-            <OrderItem orderDetails={order.orderDetails} products={products} />
-          )}
+          {isExpanded && <OrderItem orderDetails={order.orderDetails} />}
         </div>
       </Fragment>
     )

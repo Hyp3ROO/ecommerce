@@ -2,16 +2,14 @@ import Rating from '@mui/material/Rating/Rating'
 import { Product } from '../types/Product'
 import ProductImage from './ProductImage'
 import { Link } from 'react-router-dom'
+import useStoreContext from '../hooks/useStoreContext'
 
 type FeaturedProductProps = {
   featuredProduct: Product
-  addProductToCart: (product: Product) => void
 }
 
-const FeaturedProduct = ({
-  featuredProduct,
-  addProductToCart,
-}: FeaturedProductProps) => {
+const FeaturedProduct = ({ featuredProduct }: FeaturedProductProps) => {
+  const { addProductToCart } = useStoreContext()
   const handleClick = () => {
     addProductToCart(featuredProduct)
   }

@@ -5,23 +5,17 @@ import useGetProduct from '../hooks/useGetProduct'
 import ProductImage from '../components/ProductImage'
 import ReactLoading from 'react-loading'
 import Rating from '@mui/material/Rating'
+import useStoreContext from '../hooks/useStoreContext'
 
-type ProductDetailsProps = {
-  addProductToCart: (product: Product) => void
-  cartItems: Product[]
-}
-
-const ProductDetailsPage = ({
-  addProductToCart,
-  cartItems,
-}: ProductDetailsProps) => {
+const ProductDetailsPage = () => {
+  const { cartItems, addProductToCart } = useStoreContext()
   const navigate = useNavigate()
   const { title } = useParams()
   const storedTitle = (localStorage.storedTitle = title)
   const productDetailsQuery = useGetProduct(title || storedTitle)
   const productDetails = productDetailsQuery.data
   const cartItem = cartItems.find(
-    cartItem => cartItem.title === (productDetails?.title || '')
+    (cartItem: Product) => cartItem.title === (productDetails?.title || '')
   )
   if (productDetails) {
     if (cartItem?.quantity) {

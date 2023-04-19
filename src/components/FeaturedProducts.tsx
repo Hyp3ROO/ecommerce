@@ -3,26 +3,14 @@ import { Carousel } from 'react-responsive-carousel'
 import { Product } from '../types/Product'
 import ReactLoading from 'react-loading'
 import FeaturedProduct from './FeaturedProduct'
-import { UseQueryResult } from '@tanstack/react-query/build/lib/types'
+import useStoreContext from '../hooks/useStoreContext'
 
-type FeaturedProductsProps = {
-  featuredProducts: Product[]
-  addProductToCart: (product: Product) => void
-  productsQuery: UseQueryResult<any, unknown>
-}
-
-const FeaturedProducts = ({
-  featuredProducts,
-  addProductToCart,
-  productsQuery,
-}: FeaturedProductsProps) => {
+const FeaturedProducts = () => {
+  const { featuredProducts, productsQuery } = useStoreContext()
   const featuredProductsList = featuredProducts?.map(
     (featuredProduct: Product) => (
       <div key={featuredProduct?.id}>
-        <FeaturedProduct
-          featuredProduct={featuredProduct}
-          addProductToCart={addProductToCart}
-        />
+        <FeaturedProduct featuredProduct={featuredProduct} />
       </div>
     )
   )

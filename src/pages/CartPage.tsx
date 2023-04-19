@@ -11,32 +11,14 @@ import {
   doc,
   serverTimestamp,
 } from 'firebase/firestore'
+import useStoreContext from '../hooks/useStoreContext'
 
-type CartPageProps = {
-  cartItems: Product[]
-  setCartItems: (cartItems: Product[]) => void
-  deleteProductFromCart: (id: string) => void
-  handleQuantityChange: (quantity: number, product: Product) => void
-  products: Product[]
-}
-
-const CartPage = ({
-  cartItems,
-  setCartItems,
-  deleteProductFromCart,
-  handleQuantityChange,
-  products,
-}: CartPageProps) => {
+const CartPage = () => {
+  const { cartItems, setCartItems, products } = useStoreContext()
   const [user] = useAuthState(auth)
   const [total, setTotal] = useState(0)
   const renderedCartItems = cartItems?.map((cartItem: Product) => (
-    <CartItem
-      key={cartItem.id}
-      cartItem={cartItem}
-      deleteProductFromCart={deleteProductFromCart}
-      handleQuantityChange={handleQuantityChange}
-      products={products}
-    />
+    <CartItem key={cartItem.id} cartItem={cartItem} />
   ))
 
   const handleOrder = async () => {
@@ -52,7 +34,7 @@ const CartPage = ({
         total,
         createdAt: serverTimestamp(),
       })
-      cartItems.forEach(async cartItem => {
+      cartItems.forEach(async (cartItem: Product) => {
         await deleteDoc(doc(db, uid, cartItem.id))
       })
     }
@@ -64,11 +46,11 @@ const CartPage = ({
   const handleDeleteAll = () => {
     if (auth.currentUser) {
       const { uid } = auth.currentUser
-      cartItems.forEach(async cartItem => {
+      cartItems.forEach(async (cartItem: Product) => {
         await deleteDoc(doc(db, uid, cartItem.id))
       })
     }
-    products.map(product => (product.quantity = 0))
+    products.map((product: Product) => (product.quantity = 0))
     setCartItems([])
     localStorage.cartItems = []
     toast.success('Deleted all items from cart')
@@ -76,7 +58,7 @@ const CartPage = ({
 
   useEffect(() => {
     let totalPrice = 0
-    cartItems.forEach(cartItem => {
+    cartItems.forEach((cartItem: Product) => {
       totalPrice += cartItem.price * cartItem.quantity
     })
     setTotal(Math.round(totalPrice * 100) / 100)

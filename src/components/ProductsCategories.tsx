@@ -4,13 +4,8 @@ import jewelery from '../assets/jewellery.jpg'
 import electronics from '../assets/electronics.jpg'
 import allCategories from '../assets/allcategories.jpg'
 import ReactLoading from 'react-loading'
-import { UseQueryResult } from '@tanstack/react-query'
 import toast from 'react-hot-toast'
-
-type ProductsCategoriesProps = {
-  setSelectedCategory: (category: string) => void
-  productsCategoriesQuery: UseQueryResult<any, unknown>
-}
+import useStoreContext from '../hooks/useStoreContext'
 
 type Images = {
   "men's clothing": string
@@ -19,10 +14,8 @@ type Images = {
   electronics: string
 }
 
-const ProductsCategories = ({
-  setSelectedCategory,
-  productsCategoriesQuery,
-}: ProductsCategoriesProps) => {
+const ProductsCategories = () => {
+  const { setSelectedCategory, productsCategoriesQuery } = useStoreContext()
   const productsCategories = productsCategoriesQuery.isSuccess
     ? productsCategoriesQuery.data
     : ''

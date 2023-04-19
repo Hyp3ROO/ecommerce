@@ -7,15 +7,12 @@ import Hamburger from 'hamburger-react'
 import { auth } from '../auth/firebase'
 import { signOutUser } from '../auth/auth'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { Product } from '../types/Product'
 import Tooltip from '@mui/material/Tooltip'
 import { BsMoon, BsSun } from 'react-icons/bs'
+import useStoreContext from '../hooks/useStoreContext'
 
-type NavBarProps = {
-  cartItems: Product[]
-}
-
-const NavBar = ({ cartItems }: NavBarProps) => {
+const NavBar = () => {
+  const { cartItems } = useStoreContext()
   const location = useLocation()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)

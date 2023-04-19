@@ -1,25 +1,12 @@
 import ProductCard from './ProductCard'
 import ReactLoading from 'react-loading'
 import { Product } from '../types/Product'
-import { UseQueryResult } from '@tanstack/react-query/build/lib/types'
+import useStoreContext from '../hooks/useStoreContext'
 
-type ProductsProps = {
-  products: Product[]
-  addProductToCart: (product: Product) => void
-  productsQuery: UseQueryResult
-}
-
-const ProductsList = ({
-  products,
-  addProductToCart,
-  productsQuery,
-}: ProductsProps) => {
+const ProductsList = () => {
+  const { products, productsQuery } = useStoreContext()
   const renderedProducts = products?.map((product: Product) => (
-    <ProductCard
-      key={product.id}
-      product={product}
-      addProductToCart={addProductToCart}
-    />
+    <ProductCard key={product.id} product={product} />
   ))
 
   return (
