@@ -23,7 +23,9 @@ const signInUser = (email: string, password: string) => {
 const signOutUser = () => {
   signOut(auth)
     .then(() => toast.success('Signed out'))
-    .catch(() => toast.error('Unable to sign out. Try again!'))
+    .catch(err =>
+      toast.error(`Unable to sign out. Try again! Error: ${err.message}`)
+    )
 }
 
 export { createUser, signInUser, signOutUser }

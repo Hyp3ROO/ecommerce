@@ -1,12 +1,12 @@
+import type { Product } from '../../types/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Product } from '../types/Product'
-import useGetProduct from '../hooks/useGetProduct'
-import ProductImage from '../components/ProductImage'
+import useGetProduct from '../../hooks/useGetProduct'
+import ProductImage from '../../components/ui/ProductImage'
 import ReactLoading from 'react-loading'
 import Rating from '@mui/material/Rating'
-import useStoreContext from '../hooks/useStoreContext'
-import Button from '../components/Button'
+import useStoreContext from '../../hooks/useStoreContext'
+import Button from '../../components/ui/Button'
 
 const ProductDetailsPage = () => {
   const { cartItems, addProductToCart } = useStoreContext()
@@ -62,7 +62,9 @@ const ProductDetailsPage = () => {
               className='h-[12rem] rounded-lg bg-white object-contain p-4 md:col-start-1 md:col-end-3 md:h-[20rem]'
             />
             <div className='grid grid-flow-row place-items-center'>
-              <h1 className='font-bold md:text-2xl'>{productDetails?.title}</h1>
+              <h2 className='text-lg font-bold md:text-2xl'>
+                {productDetails?.title}
+              </h2>
               <p className='my-2 flex items-center justify-start gap-1 font-bold'>
                 <Rating
                   name='read-only'

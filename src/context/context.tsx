@@ -1,7 +1,5 @@
+import type { Product, Order, StoreContextType } from '../types/types'
 import { PropsWithChildren, createContext, useState } from 'react'
-import type { Product } from '../types/Product'
-import type { Order } from '../types/Order'
-import type { StoreContextType } from '../types/StoreContextType'
 import { toast } from 'react-hot-toast'
 import {
   addDoc,

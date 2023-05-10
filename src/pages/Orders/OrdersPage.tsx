@@ -1,12 +1,15 @@
+import type { Order } from '../../types/types'
 import { Fragment, useState } from 'react'
-import OrderItem from '../components/OrderItem'
-import { AiOutlineArrowDown, AiOutlineArrowUp } from 'react-icons/ai'
-import { Order } from '../types/Order'
-import useStoreContext from '../hooks/useStoreContext'
+import OrderItem from './OrderItem'
+import useStoreContext from '../../hooks/useStoreContext'
+import { Navigate } from 'react-router-dom'
 
 const OrdersPage = () => {
-  const { orders } = useStoreContext()
   const [expandedIndex, setExpandedIndex] = useState(-1)
+  const { orders, user } = useStoreContext()
+  if (!user) {
+    return <Navigate to='/' replace />
+  }
 
   const handleClick = (index: number) => {
     setExpandedIndex(currentExpandedIndex => {
@@ -32,25 +35,17 @@ const OrdersPage = () => {
           <p className='text-xl font-bold'>Total: {order.total}$</p>
           <p>Ordered: {orderDate}</p>
           {isExpanded ? (
-            <>
-              <p className='text-sm font-bold text-blue-500'>
-                Roll up your orders
-              </p>
-              <AiOutlineArrowUp
-                className='cursor-pointer text-xl duration-300 hover:scale-110'
-                onClick={() => handleClick(index)}
-              />
-            </>
+            <button
+              className='cursor-pointer font-bold text-blue-500 duration-300 hover:scale-105'
+              onClick={() => handleClick(index)}>
+              Roll up your orders
+            </button>
           ) : (
-            <>
-              <p className='text-sm font-bold text-blue-500'>
-                Expand your orders
-              </p>
-              <AiOutlineArrowDown
-                className='cursor-pointer text-xl duration-300 hover:scale-110'
-                onClick={() => handleClick(index)}
-              />
-            </>
+            <button
+              className='cursor-pointer font-bold text-blue-500 duration-300 hover:scale-105'
+              onClick={() => handleClick(index)}>
+              Expand your orders
+            </button>
           )}
           <div className='w-full rounded-br-full rounded-bl-full bg-blue-500 p-1.5 lg:hidden' />
         </div>

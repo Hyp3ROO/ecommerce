@@ -1,9 +1,8 @@
-import { Product } from '../types/Product'
-import CartItem from '../components/CartItem'
+import type { Product } from '../../types/types'
 import { useEffect, useState } from 'react'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import { auth, db } from '../auth/firebase'
 import toast from 'react-hot-toast'
+import { auth, db } from '../../auth/firebase'
 import {
   addDoc,
   collection,
@@ -11,8 +10,9 @@ import {
   doc,
   serverTimestamp,
 } from 'firebase/firestore'
-import useStoreContext from '../hooks/useStoreContext'
-import Button from '../components/Button'
+import useStoreContext from '../../hooks/useStoreContext'
+import Button from '../../components/ui/Button'
+import CartItem from './CartItem'
 
 const CartPage = () => {
   const { cartItems, setCartItems, products } = useStoreContext()
@@ -66,7 +66,7 @@ const CartPage = () => {
   }, [cartItems])
 
   return (
-    <div className='relative'>
+    <div className='relative w-full place-self-start'>
       {cartItems.length > 0 ? (
         <div className='lg:auto-cols-[2fr, 1fr] grid place-items-center gap-4 md:gap-8 lg:grid-flow-col lg:place-items-start lg:px-24'>
           <div>

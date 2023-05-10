@@ -1,9 +1,9 @@
-import ProductImage from './ProductImage'
-import { Product } from '../types/Product'
+import type { Product } from '../../types/types'
+import ProductImage from '../../components/ui/ProductImage'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
-import useStoreContext from '../hooks/useStoreContext'
-import Button from './Button'
+import useStoreContext from '../../hooks/useStoreContext'
+import Button from '../../components/ui/Button'
 
 type ProductProps = {
   product: Product
@@ -12,7 +12,7 @@ type ProductProps = {
 const ProductCard = ({ product }: ProductProps) => {
   const { addProductToCart } = useStoreContext()
   return (
-    <div className='flex flex-col items-center justify-center rounded-lg py-6 px-2'>
+    <div className='flex flex-col items-center justify-center rounded-lg py-6'>
       <Link
         to={`/product/${product?.title.replace('/', '')}`}
         className='duration-200 hover:scale-105'>

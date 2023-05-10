@@ -1,9 +1,9 @@
+import type { Product } from '../../types/types'
 import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
-import { Product } from '../types/Product'
 import ReactLoading from 'react-loading'
 import FeaturedProduct from './FeaturedProduct'
-import useStoreContext from '../hooks/useStoreContext'
+import useStoreContext from '../../hooks/useStoreContext'
 
 const FeaturedProducts = () => {
   const { featuredProducts, productsQuery } = useStoreContext()

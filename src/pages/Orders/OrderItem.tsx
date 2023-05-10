@@ -1,7 +1,7 @@
+import type { Product } from '../../types/types'
 import { Link } from 'react-router-dom'
-import ProductImage from './ProductImage'
-import { Product } from '../types/Product'
-import useStoreContext from '../hooks/useStoreContext'
+import useStoreContext from '../../hooks/useStoreContext'
+import ProductImage from '../../components/ui/ProductImage'
 
 type OrderItemProps = {
   orderDetails?: Product[]

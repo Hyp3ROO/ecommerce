@@ -1,12 +1,13 @@
 import { useState } from 'react'
-import { createUser, signInUser } from '../auth/auth'
+import { createUser, signInUser } from '../../auth/auth'
 import { IoMdMail, IoMdClose } from 'react-icons/io'
 import { AiFillLock } from 'react-icons/ai'
 import { GoogleAuthProvider, signInWithRedirect } from 'firebase/auth'
-import { auth } from '../auth/firebase'
+import { auth } from '../../auth/firebase'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
-import Button from './Button'
+import Button from '../ui/Button'
+import { toast } from 'react-hot-toast'
 
 type FormProps = {
   formProps: {
@@ -23,45 +24,56 @@ const LoginForm = ({ formProps }: FormProps) => {
   const location = useLocation()
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [emailError, setEmailError] = useState('')
-  const [passwordError, setPasswordError] = useState('')
+  const [form, setForm] = useState({
+    email: '',
+    password: '',
+    emailError: '',
+    passwordError: '',
+  })
   const emailRegExp = new RegExp(
     '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'
   )
 
   if (user) {
-    return <Navigate to='/' />
+    return <Navigate to='/' replace />
   }
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
-    if (!emailRegExp.test(email)) {
-      setEmailError('A valid email is required')
+    if (!emailRegExp.test(form.email)) {
+      setForm(prev => {
+        return { ...prev, emailError: 'A valid email is required' }
+      })
     } else {
-      setEmailError('')
+      setForm(prev => {
+        return { ...prev, emailError: '' }
+      })
     }
-    if (password.length < 6) {
-      setPasswordError('Password must be at least 6 characters')
+    if (form.password.length < 6) {
+      setForm(prev => {
+        return {
+          ...prev,
+          passwordError: 'Password must be at least 6 characters',
+        }
+      })
     } else {
-      setPasswordError('')
+      setForm(prev => {
+        return {
+          ...prev,
+          passwordError: '',
+        }
+      })
     }
-    if (emailRegExp.test(email) && password.length >= 6)
+    if (emailRegExp.test(form.email) && form.password.length >= 6)
       if (location.pathname === '/sign-up') {
-        createUser(email, password)
+        createUser(form.email, form.password)
       } else if (location.pathname === '/sign-in') {
-        signInUser(email, password)
+        signInUser(form.email, form.password)
       }
   }
 
-  const googleSignIn = () => {
-    const provider = new GoogleAuthProvider()
-    signInWithRedirect(auth, provider)
-  }
-
   return (
-    <div className='z-15 fixed inset-0 flex flex-col items-center justify-center bg-gray-900 text-center text-white'>
+    <div className='flex flex-col items-center justify-center bg-white text-center text-black dark:bg-gray-900 dark:text-white lg:pt-12'>
       <button
         className='group absolute right-5 top-5'
         onClick={() => navigate('/')}>
@@ -77,14 +89,14 @@ const LoginForm = ({ formProps }: FormProps) => {
             <IoMdMail className='h-5 w-5 text-gray-500 dark:text-gray-400' />
           </div>
           <input
-            className='block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 pl-10 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500'
+            className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
             type='text'
-            value={email}
-            onChange={e => setEmail(e.currentTarget.value)}
+            value={form.email}
+            onChange={e => setForm({ ...form, email: e.currentTarget.value })}
           />
         </div>
         <p className='text-sm font-bold text-red-500'>
-          {emailError.length > 0 ? emailError : ''}
+          {form.emailError !== '' ? form.emailError : ''}
         </p>
         <label>Password</label>
         <div className='relative'>
@@ -92,14 +104,16 @@ const LoginForm = ({ formProps }: FormProps) => {
             <AiFillLock className='h-5 w-5 text-gray-500 dark:text-gray-400' />
           </div>
           <input
-            className='block w-full rounded-lg border border-gray-600 bg-gray-700 p-2.5 pl-10 text-sm text-white placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500'
+            className='block w-full rounded-lg border border-gray-300 bg-gray-50 p-2.5 pl-10 text-sm text-gray-900 placeholder-gray-400 focus:border-blue-500 focus:ring-blue-500 dark:border-gray-600 dark:bg-gray-700 dark:text-white dark:placeholder-gray-400 dark:focus:border-blue-500 dark:focus:ring-blue-500'
             type='password'
-            value={password}
-            onChange={e => setPassword(e.currentTarget.value)}
+            value={form.password}
+            onChange={e =>
+              setForm({ ...form, password: e.currentTarget.value })
+            }
           />
         </div>
         <p className='text-sm font-bold text-red-500'>
-          {passwordError.length > 0 ? passwordError : ''}
+          {form.passwordError !== '' ? form.passwordError : ''}
         </p>
         <Button md mt>
           {formProps.btnText}
@@ -108,7 +122,7 @@ const LoginForm = ({ formProps }: FormProps) => {
       <div className='my-6 w-[50%] max-w-[25rem] rounded-br-full rounded-bl-full bg-blue-500 p-1.5' />
       <button
         className='dark:focus:ring-[#4285F4]/55 mr-2 mb-2 inline-flex items-center rounded-lg bg-[#4285F4] px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-[#4285F4]/90 focus:outline-none focus:ring-4 focus:ring-[#4285F4]/50'
-        onClick={googleSignIn}>
+        onClick={() => signInWithRedirect(auth, new GoogleAuthProvider())}>
         <svg
           className='mr-2 -ml-1 h-4 w-4'
           aria-hidden='true'

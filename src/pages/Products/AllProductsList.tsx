@@ -1,7 +1,7 @@
+import type { Product } from '../../types/types'
 import ProductCard from './ProductCard'
 import ReactLoading from 'react-loading'
-import { Product } from '../types/Product'
-import useStoreContext from '../hooks/useStoreContext'
+import useStoreContext from '../../hooks/useStoreContext'
 
 const ProductsList = () => {
   const { products, productsQuery } = useStoreContext()

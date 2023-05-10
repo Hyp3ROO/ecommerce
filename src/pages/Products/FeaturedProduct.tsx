@@ -1,9 +1,9 @@
+import type { Product } from '../../types/types'
 import Rating from '@mui/material/Rating/Rating'
-import { Product } from '../types/Product'
-import ProductImage from './ProductImage'
 import { Link } from 'react-router-dom'
-import useStoreContext from '../hooks/useStoreContext'
-import Button from './Button'
+import useStoreContext from '../../hooks/useStoreContext'
+import ProductImage from '../../components/ui/ProductImage'
+import Button from '../../components/ui/Button'
 
 type FeaturedProductProps = {
   featuredProduct: Product

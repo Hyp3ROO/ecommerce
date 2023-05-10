@@ -1,11 +1,11 @@
-import mensClothing from '../assets/men.jpg'
-import womensClothing from '../assets/women.jpg'
-import jewelery from '../assets/jewellery.jpg'
-import electronics from '../assets/electronics.jpg'
-import allCategories from '../assets/allcategories.jpg'
+import mensClothing from '../../assets/men.jpg'
+import womensClothing from '../../assets/women.jpg'
+import jewelery from '../../assets/jewellery.jpg'
+import electronics from '../../assets/electronics.jpg'
+import allCategories from '../../assets/allcategories.jpg'
 import ReactLoading from 'react-loading'
 import toast from 'react-hot-toast'
-import useStoreContext from '../hooks/useStoreContext'
+import useStoreContext from '../../hooks/useStoreContext'
 
 type Images = {
   "men's clothing": string

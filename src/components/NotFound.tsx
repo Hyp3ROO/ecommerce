@@ -1,6 +1,6 @@
 import { useNavigate } from 'react-router-dom'
 import notFoundImg from '../assets/404.svg'
-import Button from './Button'
+import Button from './ui/Button'
 
 const NotFound = () => {
   const navigate = useNavigate()

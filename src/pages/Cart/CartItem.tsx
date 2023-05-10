@@ -1,9 +1,9 @@
-import { Product } from '../types/Product'
-import { BsFillTrashFill } from 'react-icons/bs'
-import ProductImage from './ProductImage'
+import type { Product } from '../../types/types'
 import { useState } from 'react'
 import { Link } from 'react-router-dom'
-import useStoreContext from '../hooks/useStoreContext'
+import useStoreContext from '../../hooks/useStoreContext'
+import { BsFillTrashFill } from 'react-icons/bs'
+import ProductImage from '../../components/ui/ProductImage'
 
 type CartItemProps = {
   cartItem: Product
@@ -45,10 +45,10 @@ const CartItem = ({ cartItem }: CartItemProps) => {
         <Link
           to={`/product/${product?.title.replace('/', '')}`}
           className='duration-200 hover:text-blue-500'>
-          <h3 className='text-sm font-bold md:hidden'>
+          <h3 className='text-sm font-bold md:text-lg xl:hidden'>
             {`${cartItem?.title.substring(0, 16)}...`}
           </h3>
-          <h3 className='hidden text-xl font-bold md:block'>
+          <h3 className='hidden text-xl font-bold xl:block'>
             {cartItem?.title}
           </h3>
         </Link>

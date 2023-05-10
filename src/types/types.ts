@@ -1,7 +1,29 @@
 import { UseQueryResult } from '@tanstack/react-query'
 import { User } from '@firebase/auth'
-import { Product } from './Product'
-import { Order } from './Order'
+
+export type Product = {
+  quantity: number
+  id: string
+  title: string
+  category: string
+  description: string
+  image: string
+  price: number
+  rating: {
+    count: number
+    rate: number
+  }
+}
+
+export type Order = {
+  id: string
+  total?: number
+  uid?: string
+  createdAt?: {
+    seconds: number
+  }
+  orderDetails?: Product[]
+}
 
 export type StoreContextType = {
   user: User | null | undefined

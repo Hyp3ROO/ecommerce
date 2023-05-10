@@ -1,16 +1,16 @@
 import { useAuthState } from 'react-firebase-hooks/auth'
+import { auth } from '../auth/firebase'
+import { signOutUser } from '../auth/auth'
 import { useEffect, useState } from 'react'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
+import useStoreContext from '../hooks/useStoreContext'
+import Tooltip from '@mui/material/Tooltip'
+import Button from './ui/Button'
+import { BsMoon, BsSun } from 'react-icons/bs'
 import { AiFillHome } from 'react-icons/ai'
 import { GoTasklist } from 'react-icons/go'
 import { ImCart } from 'react-icons/im'
 import Hamburger from 'hamburger-react'
-import { auth } from '../auth/firebase'
-import { signOutUser } from '../auth/auth'
-import { Link, useLocation, useNavigate } from 'react-router-dom'
-import Tooltip from '@mui/material/Tooltip'
-import { BsMoon, BsSun } from 'react-icons/bs'
-import useStoreContext from '../hooks/useStoreContext'
-import Button from './Button'
 
 const NavBar = () => {
   const { cartItems } = useStoreContext()
@@ -18,7 +18,9 @@ const NavBar = () => {
   const navigate = useNavigate()
   const [user] = useAuthState(auth)
   const [isOpen, setIsOpen] = useState(false)
-  const [theme, setTheme] = useState(localStorage.theme || 'dark')
+  const [theme, setTheme] = useState(
+    localStorage.theme !== undefined ? localStorage.theme : 'dark'
+  )
 
   const handleSignOut = () => {
     signOutUser()
@@ -39,32 +41,39 @@ const NavBar = () => {
         break
       case 'light':
         document.body.classList.remove('dark')
-        localStorage.theme = ''
+        localStorage.theme = 'light'
         break
     }
   }, [theme])
 
+  useEffect(() => {
+    isOpen
+      ? document.body.classList.add('overflow-hidden')
+      : document.body.classList.remove('overflow-hidden')
+  }, [isOpen])
+
   return (
     <>
-      {/* Mobile NavBar */}
       <nav
-        className={`fixed inset-y-0 z-10 flex h-20 w-full items-center justify-between bg-white/80 px-12 dark:bg-gray-900/80 md:hidden ${
+        className={`fixed inset-y-0 z-10 flex h-20 w-full items-center justify-between bg-white/80 px-12 dark:bg-gray-900/80 ${
           (location.pathname === '/sign-in' ||
             location.pathname === '/sign-up') &&
           'hidden'
         }`}>
         <Link to='/'>
-          <h1 className='text-lg font-bold duration-200 hover:text-blue-500'>
+          <h1 className='text-lg font-bold duration-200 hover:text-blue-500 md:text-2xl'>
             E-COM
           </h1>
         </Link>
-        <div className='z-10'>
+        <div className='z-10 md:hidden'>
           <Hamburger duration={0.2} toggled={isOpen} toggle={setIsOpen} />
         </div>
+
+        {/* Mobile NavBar List */}
         <ul
           className={`${
             isOpen ? 'fixed' : 'hidden'
-          } inset-0 flex min-h-screen flex-col items-center justify-evenly bg-white/80 dark:bg-gray-900/80`}>
+          } inset-0 flex min-h-screen flex-col items-center justify-evenly bg-white/95 dark:bg-gray-900/95 md:hidden`}>
           <Link to='/' onClick={() => setIsOpen(false)}>
             <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
               <AiFillHome className='mr-3 text-blue-500 duration-200 group-hover:text-blue-700' />
@@ -124,21 +133,9 @@ const NavBar = () => {
             </>
           )}
         </ul>
-      </nav>
 
-      {/* Desktop NavBar */}
-      <nav
-        className={`fixed inset-y-0 inset-x-12 z-10 hidden h-20 items-center justify-between bg-white/80 dark:bg-gray-900/80 md:flex ${
-          (location.pathname === '/sign-in' ||
-            location.pathname === '/sign-up') &&
-          'md:hidden'
-        }`}>
-        <Link to='/'>
-          <h1 className='text-lg font-bold duration-200 hover:text-blue-500 md:text-2xl'>
-            E-COM
-          </h1>
-        </Link>
-        <ul className='flex items-center justify-center gap-8'>
+        {/* Desktop NavBar List */}
+        <ul className='hidden items-center justify-center gap-8 md:flex'>
           <li className='grid place-items-center'>
             <Tooltip title='Home' arrow disableInteractive>
               <Link to='/'>
