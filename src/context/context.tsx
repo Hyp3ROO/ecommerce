@@ -81,7 +81,11 @@ const Provider = ({ children }: PropsWithChildren) => {
     const productToUpdate = products?.find(
       productToUpdate => productToUpdate.id === id
     )
+    const featuredProductToUpdate = featuredProducts.find(
+      featuredProductToUpdate => featuredProductToUpdate.id === id
+    )
     if (productToUpdate) productToUpdate.quantity = 0
+    if (featuredProductToUpdate) featuredProductToUpdate.quantity = 0
     if (auth.currentUser) {
       const { uid } = auth.currentUser
       await deleteDoc(doc(db, uid, id))
@@ -101,7 +105,11 @@ const Provider = ({ children }: PropsWithChildren) => {
     const productToUpdate = products?.find(
       productToUpdate => productToUpdate.id === product.id
     )
+    const featuredProductToUpdate = featuredProducts.find(
+      featuredProductToUpdate => featuredProductToUpdate.id === product.id
+    )
     if (productToUpdate) productToUpdate.quantity = quantity
+    if (featuredProductToUpdate) featuredProductToUpdate.quantity = quantity
     if (auth.currentUser) {
       const { uid } = auth.currentUser
       await updateDoc(doc(db, uid, product.id), {
