@@ -78,11 +78,15 @@ const Provider = ({ children }: PropsWithChildren) => {
     const updatedCartItems = cartItems.filter(cartItem => cartItem.id !== id)
     setCartItems(updatedCartItems)
     localStorage.cartItems = JSON.stringify(updatedCartItems)
-    toast.error('Deleted item from cart')
+    const productToUpdate = products?.find(
+      productToUpdate => productToUpdate.id === id
+    )
+    if (productToUpdate) productToUpdate.quantity = 0
     if (auth.currentUser) {
       const { uid } = auth.currentUser
       await deleteDoc(doc(db, uid, id))
     }
+    toast.error('Deleted item from cart')
   }
 
   const handleQuantityChange = async (quantity: number, product: Product) => {
@@ -94,6 +98,10 @@ const Provider = ({ children }: PropsWithChildren) => {
     })
     setCartItems(updatedCartItems)
     localStorage.cartItems = JSON.stringify(updatedCartItems)
+    const productToUpdate = products?.find(
+      productToUpdate => productToUpdate.id === product.id
+    )
+    if (productToUpdate) productToUpdate.quantity = quantity
     if (auth.currentUser) {
       const { uid } = auth.currentUser
       await updateDoc(doc(db, uid, product.id), {
