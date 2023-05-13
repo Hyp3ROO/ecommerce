@@ -7,7 +7,6 @@ import { auth } from '../../auth/firebase'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import Button from '../ui/Button'
-import { toast } from 'react-hot-toast'
 
 type FormProps = {
   formProps: {
@@ -93,6 +92,7 @@ const LoginForm = ({ formProps }: FormProps) => {
             type='text'
             value={form.email}
             onChange={e => setForm({ ...form, email: e.currentTarget.value })}
+            placeholder='e.g. test@test.com'
           />
         </div>
         <p className='text-sm font-bold text-red-500'>
@@ -110,6 +110,7 @@ const LoginForm = ({ formProps }: FormProps) => {
             onChange={e =>
               setForm({ ...form, password: e.currentTarget.value })
             }
+            placeholder='e.g. 123123'
           />
         </div>
         <p className='text-sm font-bold text-red-500'>

@@ -21,7 +21,7 @@ const OrdersPage = () => {
     })
   }
 
-  const renderedOrders = orders?.map((order: Order, index: number) => {
+  const renderedOrders = orders.map((order: Order, index: number) => {
     const isExpanded = index === expandedIndex
     let orderDate
     if (order.createdAt?.seconds) {

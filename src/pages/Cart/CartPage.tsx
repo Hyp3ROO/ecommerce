@@ -38,10 +38,10 @@ const CartPage = () => {
       cartItems.forEach(async (cartItem: Product) => {
         await deleteDoc(doc(db, uid, cartItem.id))
       })
+      setCartItems([])
+      localStorage.cartItems = []
+      toast.success('You made an order!')
     }
-    setCartItems([])
-    localStorage.cartItems = []
-    toast.success('You made an order!')
   }
 
   const handleDeleteAll = () => {
