@@ -45,7 +45,7 @@ const ProductsCategories = () => {
           Categories
         </h2>
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
-        <div className='relative mt-6 flex min-h-[10rem] flex-col justify-around gap-4 md:grid md:grid-flow-col'>
+        <div className='relative mt-6 flex min-h-[10rem] flex-col justify-around gap-4 md:grid md:grid-flow-col md:gap-6'>
           {productsCategoriesQuery.isLoading ||
           productsCategoriesQuery.isFetching ? (
             <ReactLoading
@@ -58,7 +58,7 @@ const ProductsCategories = () => {
           ) : (
             <>
               <div
-                className='z-100 before:-z-1 relative grid h-full cursor-pointer place-items-center rounded-lg text-white duration-200 before:absolute before:inset-0 before:h-full before:w-full before:rounded-lg before:bg-black/50 hover:scale-105'
+                className='z-100 before:-z-1 relative grid cursor-pointer place-items-center rounded-lg text-white duration-200 before:absolute before:inset-0 before:h-full before:w-full before:rounded-lg before:bg-black/50 hover:scale-105'
                 onClick={e => handleSelect(e)}>
                 <h3 className='absolute px-2 text-center font-bold uppercase tracking-widest'>
                   all categories
@@ -73,7 +73,7 @@ const ProductsCategories = () => {
               {productsCategories.map((category: string, index: number) => (
                 <div
                   key={index}
-                  className='z-100 before:-z-1 relative grid h-full cursor-pointer place-items-center rounded-lg text-white duration-200 before:absolute before:inset-0 before:h-full before:w-full before:rounded-lg before:bg-black/50 hover:scale-105'
+                  className='z-100 before:-z-1 relative grid cursor-pointer place-items-center rounded-lg text-white duration-200 before:absolute before:inset-0 before:h-full before:w-full before:rounded-lg before:bg-black/50 hover:scale-105'
                   onClick={e => handleSelect(e)}>
                   <h3 className='absolute px-2 text-center font-bold uppercase tracking-widest'>
                     {category}

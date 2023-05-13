@@ -2,7 +2,6 @@ import type { Product } from '../../types/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import useGetProduct from '../../hooks/useGetProduct'
-import ProductImage from '../../components/ui/ProductImage'
 import ReactLoading from 'react-loading'
 import Rating from '@mui/material/Rating'
 import useStoreContext from '../../hooks/useStoreContext'
@@ -56,10 +55,11 @@ const ProductDetailsPage = () => {
           />
         ) : (
           <div className='grid grid-flow-row place-items-center gap-8 px-4 text-center md:mt-8 md:grid-cols-2 md:gap-12 md:px-16 lg:px-32'>
-            <ProductImage
-              image={productDetails?.image}
+            <img
+              src={productDetails?.image}
               alt={productDetails?.title}
               className='h-[12rem] rounded-lg bg-white object-contain p-4 md:col-start-1 md:col-end-3 md:h-[20rem]'
+              loading='lazy'
             />
             <div className='grid grid-flow-row place-items-center'>
               <h2 className='text-lg font-bold md:text-2xl'>

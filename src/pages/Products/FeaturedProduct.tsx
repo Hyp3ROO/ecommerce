@@ -2,7 +2,6 @@ import type { Product } from '../../types/types'
 import Rating from '@mui/material/Rating/Rating'
 import { Link } from 'react-router-dom'
 import useStoreContext from '../../hooks/useStoreContext'
-import ProductImage from '../../components/ui/ProductImage'
 import Button from '../../components/ui/Button'
 
 type FeaturedProductProps = {
@@ -16,14 +15,15 @@ const FeaturedProduct = ({ featuredProduct }: FeaturedProductProps) => {
   }
 
   return (
-    <div className='rounded-lg py-12 md:grid md:grid-cols-2 md:place-items-center md:py-6'>
+    <div className='rounded-lg py-12 px-6 md:grid md:grid-cols-2 md:place-items-center md:py-6'>
       <Link
         to={`/product/${featuredProduct?.title.replace('/', '')}`}
         className='duration-200 hover:scale-105'>
-        <ProductImage
-          image={featuredProduct?.image}
+        <img
+          src={featuredProduct?.image}
           alt={featuredProduct?.title}
           className='h-[12rem] rounded-lg bg-white object-contain p-4 md:h-[20rem]'
+          loading='lazy'
         />
       </Link>
       <div>

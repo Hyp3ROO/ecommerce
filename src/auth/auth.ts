@@ -6,26 +6,31 @@ import {
 import { auth } from './firebase'
 import toast from 'react-hot-toast'
 
-const createUser = (email: string, password: string) => {
-  createUserWithEmailAndPassword(auth, email, password)
-    .then(() => toast.success('Created user'))
-    .catch(() => toast.error('Unable to create user. Try again!'))
+const createUser = async (email: string, password: string) => {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password)
+    toast.success('Created user')
+  } catch (err) {
+    toast.error(`Unable to create user. Try again! Error: ${err}`)
+  }
 }
 
-const signInUser = (email: string, password: string) => {
-  signInWithEmailAndPassword(auth, email, password)
-    .then(() => toast.success('Signed in'))
-    .catch(err =>
-      toast.error(`Unable to sign in. Try again! Error: ${err.message}`)
-    )
+const signInUser = async (email: string, password: string) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password)
+    toast.success('Signed in')
+  } catch (err) {
+    toast.error(`Unable to sign in. Try again! Error: ${err}`)
+  }
 }
 
-const signOutUser = () => {
-  signOut(auth)
-    .then(() => toast.success('Signed out'))
-    .catch(err =>
-      toast.error(`Unable to sign out. Try again! Error: ${err.message}`)
-    )
+const signOutUser = async () => {
+  try {
+    await signOut(auth)
+    toast.success('Signed out')
+  } catch (err) {
+    toast.error(`Unable to sign out. Try again! Error: ${err}`)
+  }
 }
 
 export { createUser, signInUser, signOutUser }

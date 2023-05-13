@@ -1,5 +1,4 @@
 import type { Product } from '../../types/types'
-import ProductImage from '../../components/ui/ProductImage'
 import Rating from '@mui/material/Rating'
 import { Link } from 'react-router-dom'
 import useStoreContext from '../../hooks/useStoreContext'
@@ -16,10 +15,11 @@ const ProductCard = ({ product }: ProductProps) => {
       <Link
         to={`/product/${product?.title.replace('/', '')}`}
         className='duration-200 hover:scale-105'>
-        <ProductImage
-          image={product?.image}
+        <img
+          src={product?.image}
           alt={product?.title}
           className='h-[12rem] rounded-lg bg-white object-contain p-4 md:h-[20rem]'
+          loading='lazy'
         />
       </Link>
       <div className='flex flex-col items-center text-center'>

@@ -57,7 +57,7 @@ const OrdersPage = () => {
   })
 
   return (
-    <>
+    <div className='self-start'>
       <h2 className='mb-12 text-center text-3xl font-bold uppercase tracking-widest'>
         Your Orders
       </h2>
@@ -70,7 +70,7 @@ const OrdersPage = () => {
           </p>
         )}
       </div>
-    </>
+    </div>
   )
 }
 export default OrdersPage

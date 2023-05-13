@@ -3,7 +3,6 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useStoreContext from '../../hooks/useStoreContext'
 import { BsFillTrashFill } from 'react-icons/bs'
-import ProductImage from '../../components/ui/ProductImage'
 
 type CartItemProps = {
   cartItem: Product
@@ -35,10 +34,11 @@ const CartItem = ({ cartItem }: CartItemProps) => {
       <Link
         to={`/product/${product?.title.replace('/', '')}`}
         className='duration-200 hover:scale-105'>
-        <ProductImage
-          image={cartItem?.image}
+        <img
+          src={cartItem?.image}
           alt={cartItem?.title}
           className='w-24 rounded-lg bg-white p-4 md:w-32'
+          loading='lazy'
         />
       </Link>
       <div className='flex flex-col gap-2'>
