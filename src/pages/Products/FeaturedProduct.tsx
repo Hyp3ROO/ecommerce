@@ -15,7 +15,7 @@ const FeaturedProduct = ({ featuredProduct }: FeaturedProductProps) => {
   }
 
   return (
-    <div className='rounded-lg py-12 px-6 md:grid md:grid-cols-2 md:place-items-center md:py-6'>
+    <div className='flex flex-col rounded-lg py-12 px-6 md:grid md:grid-cols-2 md:place-items-center md:py-6'>
       <Link
         to={`/product/${featuredProduct?.title.replace('/', '')}`}
         className='duration-200 hover:scale-105'>

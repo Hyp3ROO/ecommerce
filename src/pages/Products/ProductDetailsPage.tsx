@@ -58,7 +58,7 @@ const ProductDetailsPage = () => {
             <img
               src={productDetails?.image}
               alt={productDetails?.title}
-              className='h-[12rem] rounded-lg bg-white object-contain p-4 md:col-start-1 md:col-end-3 md:h-[20rem]'
+              className='h-[12rem] rounded-lg bg-white object-contain p-4 md:col-start-1 md:col-end-2 md:h-[20rem]'
               loading='lazy'
             />
             <div className='grid grid-flow-row place-items-center'>
