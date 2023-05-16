@@ -14,7 +14,6 @@ import {
 import { auth, db } from '../auth/firebase'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import useGetProducts from '../hooks/useGetProducts'
-import useGetCategories from '../hooks/useGetCategories'
 
 const StoreContext = createContext<StoreContextType | undefined>(undefined)
 
@@ -25,15 +24,10 @@ const Provider = ({ children }: PropsWithChildren) => {
   const [cartItems, setCartItems] = useState<Product[]>(() => {
     return JSON.parse(localStorage.cartItems || '[]')
   })
-  const productsQuery = useGetProducts(selectedCategory)
-  const products = productsQuery.isSuccess ? productsQuery.data : []
-  const featuredProductsQuery = useGetProducts('')
-  const featuredProducts = featuredProductsQuery.isSuccess
-    ? featuredProductsQuery.data.filter(
-        (product: Product) => product.rating.rate > 4.5
-      )
-    : []
-  const productsCategoriesQuery = useGetCategories()
+  const { data: products } = useGetProducts('')
+  const featuredProducts = products?.filter(
+    (product: Product) => product.rating.rate > 4.5
+  )
 
   const addProductToCart = async (product: Product) => {
     const cartItem = cartItems.find(
@@ -81,7 +75,7 @@ const Provider = ({ children }: PropsWithChildren) => {
     const productToUpdate = products?.find(
       productToUpdate => productToUpdate.id === id
     )
-    const featuredProductToUpdate = featuredProducts.find(
+    const featuredProductToUpdate = featuredProducts?.find(
       featuredProductToUpdate => featuredProductToUpdate.id === id
     )
     if (productToUpdate) productToUpdate.quantity = 0
@@ -105,7 +99,7 @@ const Provider = ({ children }: PropsWithChildren) => {
     const productToUpdate = products?.find(
       productToUpdate => productToUpdate.id === product.id
     )
-    const featuredProductToUpdate = featuredProducts.find(
+    const featuredProductToUpdate = featuredProducts?.find(
       featuredProductToUpdate => featuredProductToUpdate.id === product.id
     )
     if (productToUpdate) productToUpdate.quantity = quantity
@@ -157,15 +151,12 @@ const Provider = ({ children }: PropsWithChildren) => {
 
   const valueToShare = {
     user,
+    selectedCategory,
     setSelectedCategory,
     cartItems,
     setCartItems,
     orders,
     setOrders,
-    products,
-    productsQuery,
-    featuredProducts,
-    productsCategoriesQuery,
     addProductToCart,
     deleteProductFromCart,
     handleQuantityChange,
