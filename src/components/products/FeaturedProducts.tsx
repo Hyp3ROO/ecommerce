@@ -1,12 +1,15 @@
 import type { Product } from '../../types/types'
-import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import { Carousel } from 'react-responsive-carousel'
+import 'react-responsive-carousel/lib/styles/carousel.min.css'
 import ReactLoading from 'react-loading'
 import FeaturedProduct from './FeaturedProduct'
-import useStoreContext from '../../hooks/useStoreContext'
+import useGetProducts from '../../hooks/useGetProducts'
 
 const FeaturedProducts = () => {
-  const { featuredProducts, productsQuery } = useStoreContext()
+  const { data: products, isLoading, isSuccess } = useGetProducts('')
+  const featuredProducts = isSuccess
+    ? products.filter((product: Product) => product.rating.rate > 4.5)
+    : []
   const featuredProductsList = featuredProducts?.map(
     (featuredProduct: Product) => (
       <div key={featuredProduct?.id}>
@@ -24,7 +27,7 @@ const FeaturedProducts = () => {
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
       </div>
       <div className='relative min-h-[10rem] py-10 md:min-h-[30rem]'>
-        {!productsQuery.isLoading ? (
+        {!isLoading ? (
           <Carousel
             autoPlay
             infiniteLoop

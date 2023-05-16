@@ -1,13 +1,14 @@
 import type { Product } from '../../types/types'
 import { Link } from 'react-router-dom'
 import useStoreContext from '../../hooks/useStoreContext'
+import useGetProducts from '../../hooks/useGetProducts'
 
 type OrderItemProps = {
   orderDetails?: Product[]
 }
 
 const OrderItem = ({ orderDetails }: OrderItemProps) => {
-  const { products } = useStoreContext()
+  const { data: products } = useGetProducts('')
   const renderedOrder = orderDetails?.map((orderDetails: Product) => {
     const product = products?.find((product: Product) => {
       if (orderDetails.title === product.title) {

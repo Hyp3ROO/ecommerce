@@ -1,10 +1,12 @@
 import type { Product } from '../../types/types'
 import ProductCard from './ProductCard'
 import ReactLoading from 'react-loading'
+import useGetProducts from '../../hooks/useGetProducts'
 import useStoreContext from '../../hooks/useStoreContext'
 
 const ProductsList = () => {
-  const { products, productsQuery } = useStoreContext()
+  const { selectedCategory } = useStoreContext()
+  const { data: products, isLoading } = useGetProducts(selectedCategory)
   const renderedProducts = products?.map((product: Product) => (
     <ProductCard key={product.id} product={product} />
   ))
@@ -18,7 +20,7 @@ const ProductsList = () => {
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
       </div>
       <div className='relative grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-12'>
-        {!productsQuery.isLoading ? (
+        {!isLoading ? (
           renderedProducts
         ) : (
           <ReactLoading

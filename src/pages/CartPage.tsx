@@ -1,8 +1,7 @@
-import type { Product } from '../../types/types'
+import type { Product } from '../types/types'
 import { useEffect, useState } from 'react'
-import { useAuthState } from 'react-firebase-hooks/auth'
 import toast from 'react-hot-toast'
-import { auth, db } from '../../auth/firebase'
+import { auth, db } from '../auth/firebase'
 import {
   addDoc,
   collection,
@@ -10,13 +9,14 @@ import {
   doc,
   serverTimestamp,
 } from 'firebase/firestore'
-import useStoreContext from '../../hooks/useStoreContext'
-import Button from '../../components/ui/Button'
-import CartItem from './CartItem'
+import useStoreContext from '../hooks/useStoreContext'
+import Button from '../components/ui/Button'
+import CartItem from '../components/cart/CartItem'
+import useGetProducts from '../hooks/useGetProducts'
 
 const CartPage = () => {
-  const { cartItems, setCartItems, products } = useStoreContext()
-  const [user] = useAuthState(auth)
+  const { cartItems, setCartItems, user } = useStoreContext()
+  const { data: products } = useGetProducts('')
   const [total, setTotal] = useState(0)
   const renderedCartItems = cartItems?.map((cartItem: Product) => (
     <CartItem key={cartItem.id} cartItem={cartItem} />
@@ -51,10 +51,10 @@ const CartPage = () => {
         await deleteDoc(doc(db, uid, cartItem.id))
       })
     }
-    products.map((product: Product) => (product.quantity = 0))
+    products?.map((product: Product) => (product.quantity = 0))
     setCartItems([])
     localStorage.cartItems = []
-    toast.success('Deleted all items from cart')
+    toast.error('Deleted all items from cart')
   }
 
   useEffect(() => {

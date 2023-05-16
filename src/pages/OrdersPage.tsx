@@ -1,15 +1,12 @@
-import type { Order } from '../../types/types'
+import type { Order } from '../types/types'
 import { Fragment, useState } from 'react'
-import OrderItem from './OrderItem'
-import useStoreContext from '../../hooks/useStoreContext'
-import { Navigate } from 'react-router-dom'
+import useStoreContext from '../hooks/useStoreContext'
+import OrderItem from '../components/orders/OrderItem'
+import withAuth from '../hoc/withAuth'
 
 const OrdersPage = () => {
   const [expandedIndex, setExpandedIndex] = useState(-1)
-  const { orders, user } = useStoreContext()
-  if (!user) {
-    return <Navigate to='/' replace />
-  }
+  const { orders } = useStoreContext()
 
   const handleClick = (index: number) => {
     setExpandedIndex(currentExpandedIndex => {
@@ -73,4 +70,7 @@ const OrdersPage = () => {
     </div>
   )
 }
-export default OrdersPage
+export default withAuth({
+  redirectCondition: (user: any) => user,
+  redirectTo: '/',
+})(OrdersPage)

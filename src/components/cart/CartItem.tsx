@@ -3,14 +3,16 @@ import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import useStoreContext from '../../hooks/useStoreContext'
 import { BsFillTrashFill } from 'react-icons/bs'
+import useGetProducts from '../../hooks/useGetProducts'
+import Select from '../ui/Select'
 
 type CartItemProps = {
   cartItem: Product
 }
 
 const CartItem = ({ cartItem }: CartItemProps) => {
-  const { products, deleteProductFromCart, handleQuantityChange } =
-    useStoreContext()
+  const { deleteProductFromCart, handleQuantityChange } = useStoreContext()
+  const { data: products } = useGetProducts('')
   const [quantity, setQuantity] = useState(cartItem.quantity)
 
   const product = products?.find((product: Product) => {
@@ -52,19 +54,7 @@ const CartItem = ({ cartItem }: CartItemProps) => {
             {cartItem?.title}
           </h3>
         </Link>
-        <div className='text-xs md:text-lg'>
-          <label className='mr-4'>Quantity</label>
-          <select
-            value={quantity}
-            onChange={e => handleChange(e)}
-            className='cursor-pointer rounded-lg border-none bg-blue-500 p-1 text-white'>
-            <option value={1}>1</option>
-            <option value={2}>2</option>
-            <option value={3}>3</option>
-            <option value={4}>4</option>
-            <option value={5}>5</option>
-          </select>
-        </div>
+        <Select quantity={quantity} handleChange={e => handleChange(e)} />
         <p className='font-bold'>{`${cartItem?.price}$`}</p>
       </div>
       <button className='group' onClick={handleDeleteClick}>

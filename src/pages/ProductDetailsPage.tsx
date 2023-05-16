@@ -1,11 +1,12 @@
-import type { Product } from '../../types/types'
+import type { Product } from '../types/types'
 import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import useGetProduct from '../../hooks/useGetProduct'
+import useGetProduct from '../hooks/useGetProduct'
 import ReactLoading from 'react-loading'
 import Rating from '@mui/material/Rating'
-import useStoreContext from '../../hooks/useStoreContext'
-import Button from '../../components/ui/Button'
+import useStoreContext from '../hooks/useStoreContext'
+import Button from '../components/ui/Button'
+import Select from '../components/ui/Select'
 
 const ProductDetailsPage = () => {
   const { cartItems, addProductToCart } = useStoreContext()
@@ -76,19 +77,11 @@ const ProductDetailsPage = () => {
               </p>
               <p className='my-2 text-lg font-bold md:text-xl'>{`${productDetails?.price}$`}</p>
               <p className='mb-6 text-sm'>{productDetails?.description}</p>
-              <div className='mb-2 text-sm md:text-lg'>
-                <label className='mr-4'>Quantity</label>
-                <select
-                  value={quantity}
-                  onChange={e => setQuantity(+e.currentTarget.value)}
-                  className='my-3 cursor-pointer rounded-lg border-none bg-blue-500 p-1 text-white'>
-                  <option value={1}>1</option>
-                  <option value={2}>2</option>
-                  <option value={3}>3</option>
-                  <option value={4}>4</option>
-                  <option value={5}>5</option>
-                </select>
-              </div>
+              <Select
+                quantity={quantity}
+                handleChange={e => setQuantity(+e.currentTarget.value)}
+                className='mb-6'
+              />
               <Button lg onClick={handleClick}>
                 Add to Cart
               </Button>

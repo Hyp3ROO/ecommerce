@@ -6,6 +6,7 @@ import allCategories from '../../assets/allcategories.jpg'
 import ReactLoading from 'react-loading'
 import toast from 'react-hot-toast'
 import useStoreContext from '../../hooks/useStoreContext'
+import useGetCategories from '../../hooks/useGetCategories'
 
 type Images = {
   "men's clothing": string
@@ -15,10 +16,8 @@ type Images = {
 }
 
 const ProductsCategories = () => {
-  const { setSelectedCategory, productsCategoriesQuery } = useStoreContext()
-  const productsCategories = productsCategoriesQuery.isSuccess
-    ? productsCategoriesQuery.data
-    : ''
+  const { setSelectedCategory } = useStoreContext()
+  const { data: productsCategories, isLoading, isFetching } = useGetCategories()
   const images: Images = {
     "men's clothing": mensClothing,
     "women's clothing": womensClothing,
@@ -46,8 +45,7 @@ const ProductsCategories = () => {
         </h2>
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
         <div className='relative mt-6 flex min-h-[10rem] flex-col justify-around gap-4 md:grid md:grid-flow-col md:gap-6'>
-          {productsCategoriesQuery.isLoading ||
-          productsCategoriesQuery.isFetching ? (
+          {isLoading || isFetching ? (
             <ReactLoading
               type='bars'
               width={'15%'}

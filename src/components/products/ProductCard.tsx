@@ -1,8 +1,8 @@
 import type { Product } from '../../types/types'
 import Rating from '@mui/material/Rating'
+import Button from '../../components/ui/Button'
 import { Link } from 'react-router-dom'
 import useStoreContext from '../../hooks/useStoreContext'
-import Button from '../../components/ui/Button'
 
 type ProductProps = {
   product: Product
