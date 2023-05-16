@@ -1,6 +1,5 @@
 import type { Product } from '../../types/types'
 import { Link } from 'react-router-dom'
-import useStoreContext from '../../hooks/useStoreContext'
 import useGetProducts from '../../hooks/useGetProducts'
 
 type OrderItemProps = {
