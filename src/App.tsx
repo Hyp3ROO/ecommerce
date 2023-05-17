@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+import { useMediaQuery } from 'react-responsive'
 import useStoreContext from './hooks/useStoreContext'
 import NavBar from './components/navbar/NavBar'
 import CartPage from './pages/CartPage'
@@ -13,6 +14,7 @@ import HomePage from './pages/HomePage'
 
 const App = () => {
   const { fetchCart, fetchOrders, user } = useStoreContext()
+  const isMobile = useMediaQuery({ maxWidth: 767 })
 
   useEffect(() => {
     fetchCart()
@@ -35,7 +37,7 @@ const App = () => {
           <Route path='*' element={<NotFound />} />
         </Routes>
       </main>
-      <Toaster />
+      <Toaster position={isMobile ? 'bottom-center' : 'top-center'} />
     </div>
   )
 }
