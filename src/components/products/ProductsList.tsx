@@ -6,7 +6,11 @@ import useStoreContext from '../../hooks/useStoreContext'
 
 const ProductsList = () => {
   const { selectedCategory } = useStoreContext()
-  const { data: products, isLoading } = useGetProducts(selectedCategory)
+  const {
+    data: products,
+    isLoading,
+    isFetching,
+  } = useGetProducts(selectedCategory)
   const renderedProducts = products?.map((product: Product) => (
     <ProductCard key={product.id} product={product} />
   ))
@@ -20,9 +24,7 @@ const ProductsList = () => {
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
       </div>
       <div className='relative grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-12'>
-        {!isLoading ? (
-          renderedProducts
-        ) : (
+        {isLoading || isFetching ? (
           <ReactLoading
             type='bars'
             width={'20%'}
@@ -30,6 +32,8 @@ const ProductsList = () => {
             color='rgb(59 130 246)'
             className='absolute top-10 left-[50%] -translate-x-1/2'
           />
+        ) : (
+          renderedProducts
         )}
       </div>
     </div>

@@ -47,7 +47,7 @@ const ProductDetailsPage = () => {
         navigate('/404')
       }
     }
-  })
+  }, [isLoading])
 
   return (
     <>

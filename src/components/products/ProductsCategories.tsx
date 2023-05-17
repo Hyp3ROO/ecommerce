@@ -68,9 +68,9 @@ const ProductsCategories = () => {
                   loading='lazy'
                 />
               </div>
-              {productsCategories.map((category: string, index: number) => (
+              {productsCategories.map((category: string) => (
                 <div
-                  key={index}
+                  key={category}
                   className='z-100 before:-z-1 relative grid cursor-pointer place-items-center rounded-lg text-white duration-200 before:absolute before:inset-0 before:h-full before:w-full before:rounded-lg before:bg-black/50 hover:scale-105'
                   onClick={e => handleSelect(e)}>
                   <h3 className='absolute px-2 text-center font-bold uppercase tracking-widest'>

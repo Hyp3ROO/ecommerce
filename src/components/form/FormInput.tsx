@@ -38,9 +38,7 @@ const FormInput = <T extends Partial<Form>>({
           placeholder={placeholder}
         />
       </div>
-      <p className='text-sm font-bold text-red-500'>
-        {form[nameError] !== '' ? form[nameError] : ''}
-      </p>
+      <p className='text-sm font-bold text-red-500'>{form[nameError]}</p>
     </>
   )
 }

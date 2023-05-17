@@ -6,28 +6,28 @@ import withAuth from '../hoc/withAuth'
 import { User } from 'firebase/auth'
 
 const OrdersPage = () => {
-  const [expandedIndex, setExpandedIndex] = useState(-1)
+  const [expandedIndex, setExpandedIndex] = useState('')
   const { orders } = useStoreContext()
 
-  const handleClick = (index: number) => {
+  const handleClick = (index: string) => {
     setExpandedIndex(currentExpandedIndex => {
       if (currentExpandedIndex === index) {
-        return -1
+        return ''
       } else {
         return index
       }
     })
   }
 
-  const renderedOrders = orders.map((order: Order, index: number) => {
-    const isExpanded = index === expandedIndex
+  const renderedOrders = orders.map((order: Order) => {
+    const isExpanded = order.id === expandedIndex
     let orderDate
     if (order.createdAt?.seconds) {
       orderDate = new Date(order.createdAt?.seconds * 1000).toUTCString()
     }
 
     return (
-      <Fragment key={index}>
+      <Fragment key={order.id}>
         <div className='flex flex-col items-center gap-4 text-center lg:grid lg:grid-flow-col lg:gap-24 lg:px-24'>
           <p className='font-bold'>Order: #{order.id}</p>
           <p className='text-xl font-bold'>Total: {order.total}$</p>
@@ -35,13 +35,13 @@ const OrdersPage = () => {
           {isExpanded ? (
             <button
               className='cursor-pointer font-bold text-blue-500 duration-300 hover:scale-105'
-              onClick={() => handleClick(index)}>
+              onClick={() => handleClick(order.id)}>
               Roll up your orders
             </button>
           ) : (
             <button
               className='cursor-pointer font-bold text-blue-500 duration-300 hover:scale-105'
-              onClick={() => handleClick(index)}>
+              onClick={() => handleClick(order.id)}>
               Expand your orders
             </button>
           )}
