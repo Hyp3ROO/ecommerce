@@ -13,40 +13,46 @@ const ProductDetailsPage = () => {
   const navigate = useNavigate()
   const { title } = useParams()
   const storedTitle = (localStorage.storedTitle = title)
-  const productDetailsQuery = useGetProduct(title || storedTitle)
-  const productDetails = productDetailsQuery.data
+  const {
+    data: productDetails,
+    isLoading,
+    isFetching,
+    isSuccess,
+  } = useGetProduct(title || storedTitle)
   const cartItem = cartItems.find(
     (cartItem: Product) => cartItem.title === (productDetails?.title || '')
   )
-  if (productDetails) {
-    if (cartItem?.quantity) {
-      productDetails.quantity = cartItem.quantity
-    } else {
-      productDetails.quantity = 1
-    }
-  }
   const [quantity, setQuantity] = useState(1)
 
   const handleClick = () => {
     if (productDetails) {
-      cartItem?.quantity
-        ? (productDetails.quantity = quantity - 1 + cartItem.quantity)
-        : (productDetails.quantity = quantity - 1)
-
+      if (cartItem?.quantity) {
+        productDetails.quantity = quantity - 1 + cartItem.quantity
+      } else {
+        productDetails.quantity = quantity - 1
+      }
       addProductToCart(productDetails)
     }
   }
 
   useEffect(() => {
-    if (productDetailsQuery.isSuccess) {
-      if (!productDetails) navigate('/404')
+    if (!isLoading) {
+      if (productDetails) {
+        if (cartItem?.quantity) {
+          productDetails.quantity = cartItem.quantity
+        } else {
+          productDetails.quantity = 1
+        }
+      } else {
+        navigate('/404')
+      }
     }
   })
 
   return (
     <>
-      {productDetailsQuery.isSuccess ? (
-        productDetailsQuery.isLoading || productDetailsQuery.isFetching ? (
+      {isSuccess ? (
+        isLoading || isFetching ? (
           <ReactLoading
             type='bars'
             width={'20%'}
