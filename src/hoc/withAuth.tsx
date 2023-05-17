@@ -1,16 +1,17 @@
+import type { User } from 'firebase/auth'
 import { useAuthState } from 'react-firebase-hooks/auth'
 import { auth } from '../auth/firebase'
 import { Navigate } from 'react-router-dom'
 
-type withAuthType = {
-  redirectCondition: (user: any) => boolean
+type WithAuthType = {
+  redirectCondition: (user: User | null | undefined) => boolean
   redirectTo: string
 }
 
 const withAuth =
-  ({ redirectCondition, redirectTo }: withAuthType) =>
-  (Component: React.ComponentType<any>) =>
-  (props: any) => {
+  <Props extends object>({ redirectCondition, redirectTo }: WithAuthType) =>
+  (Component: React.ComponentType<Props>) =>
+  (props: Props) => {
     const [user] = useAuthState(auth)
     if (redirectCondition(user)) {
       return <Component {...props} />

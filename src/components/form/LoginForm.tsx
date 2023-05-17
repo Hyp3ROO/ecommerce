@@ -8,6 +8,7 @@ import { IoMdMail, IoMdClose } from 'react-icons/io'
 import { AiFillLock } from 'react-icons/ai'
 import withAuth from '../../hoc/withAuth'
 import { Form } from '../../types/types'
+import { User } from 'firebase/auth'
 
 type FormProps = {
   formProps: {
@@ -128,7 +129,7 @@ const LoginForm = ({ formProps }: FormProps) => {
     </div>
   )
 }
-export default withAuth({
-  redirectCondition: (user: any) => !user,
+export default withAuth<FormProps>({
+  redirectCondition: (user: User | null | undefined) => !user,
   redirectTo: '/',
 })(LoginForm)

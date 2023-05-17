@@ -2,7 +2,7 @@ import { PropsWithChildren } from 'react'
 import { clsx } from 'clsx'
 
 interface ButtonProps extends PropsWithChildren {
-  [rest: string]: any
+  [rest: string]: unknown
   sm?: boolean
   md?: boolean
   lg?: boolean

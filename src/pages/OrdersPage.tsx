@@ -3,6 +3,7 @@ import { Fragment, useState } from 'react'
 import useStoreContext from '../hooks/useStoreContext'
 import OrderItem from '../components/orders/OrderItem'
 import withAuth from '../hoc/withAuth'
+import { User } from 'firebase/auth'
 
 const OrdersPage = () => {
   const [expandedIndex, setExpandedIndex] = useState(-1)
@@ -71,6 +72,6 @@ const OrdersPage = () => {
   )
 }
 export default withAuth({
-  redirectCondition: (user: any) => user,
+  redirectCondition: (user: User | null | undefined) => !!user,
   redirectTo: '/',
 })(OrdersPage)
