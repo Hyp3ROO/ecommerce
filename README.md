@@ -1,7 +1,12 @@
 
 # E-COM Ecommerce React.js App
 
-E-COM is an ecommerce platform built using React.js and Typescript. It serves as a personal project to improve my skills in these technologies. The platform includes a user-friendly interface that allows users to easily navigate through different products, add them to the cart and place an order.
+E-COM is an app imitating ecommerce shop built using React.js and Typescript. This app includes a user-friendly interface that allows users to easily navigate through different products, add them to the cart and place an order.
+
+
+## Live demo
+
+https://ecommerce-alpha-seven.vercel.app/
 
 
 ## Website preview on desktop (dark mode)
@@ -26,7 +31,3 @@ E-COM is an ecommerce platform built using React.js and Typescript. It serves as
 - TailwindCSS
 - Typescript
 - Vercel for hosting and deployment
-## Live demo
-
-https://ecommerce-alpha-seven.vercel.app/
-
