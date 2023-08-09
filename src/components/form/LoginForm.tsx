@@ -9,6 +9,7 @@ import { AiFillLock } from 'react-icons/ai'
 import withAuth from '../../hoc/withAuth'
 import { Form } from '../../types/types'
 import { User } from 'firebase/auth'
+import { hasWhiteSpace } from '../../utils/hasWhiteSpace'
 
 type FormProps = {
   formProps: {
@@ -30,28 +31,23 @@ const LoginForm = ({ formProps }: FormProps) => {
     emailError: '',
     passwordError: '',
   })
-  const emailRegExp = new RegExp(
-    '^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$'
-  )
 
   const validateForm = () => {
     let isFormValid = true
 
-    if (!emailRegExp.test(form.email)) {
-      setForm(prev => {
-        return { ...prev, emailError: 'A valid email is required' }
-      })
-      isFormValid = false
-    } else {
-      setForm(prev => {
-        return { ...prev, emailError: '' }
-      })
-    }
     if (form.password.length < 6) {
       setForm(prev => {
         return {
           ...prev,
           passwordError: 'Password must be at least 6 characters',
+        }
+      })
+      isFormValid = false
+    } else if (hasWhiteSpace(form.password)) {
+      setForm(prev => {
+        return {
+          ...prev,
+          passwordError: 'You cannot use whitespace characters!',
         }
       })
       isFormValid = false
