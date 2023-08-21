@@ -23,7 +23,8 @@ const FeaturedProduct = ({ featuredProduct }: FeaturedProductProps) => {
           src={featuredProduct?.image}
           alt={featuredProduct?.title}
           className='h-[12rem] rounded-lg bg-white object-contain p-4 md:h-[20rem]'
-          loading='lazy'
+          width={200}
+          height={200}
         />
       </Link>
       <div>
