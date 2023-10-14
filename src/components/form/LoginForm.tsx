@@ -114,6 +114,21 @@ const LoginForm = ({ formProps }: FormProps) => {
       </form>
       <div className='my-6 w-[50%] max-w-[25rem] rounded-br-full rounded-bl-full bg-blue-500 p-1.5' />
       <GoogleButton formProps={formProps} />
+      {location.pathname === '/sign-in' && (
+        <Button
+          sm
+          mt
+          onClick={() =>
+            setForm({
+              email: 'test@test.com',
+              password: '123123',
+              emailError: '',
+              passwordError: '',
+            })
+          }>
+          Use Test Account
+        </Button>
+      )}
       <p className='my-6 text-sm'>
         {formProps.text}{' '}
         <Link
