@@ -11,6 +11,7 @@ import SignInPage from './pages/SignInPage'
 import SignUpPage from './pages/SignUpPage'
 import NotFound from './components/NotFound'
 import HomePage from './pages/HomePage'
+import Footer from './components/Footer'
 
 const App = () => {
   const { fetchCart, fetchOrders, user } = useStoreContext()
@@ -22,7 +23,7 @@ const App = () => {
   }, [user])
 
   return (
-    <div className='relative min-h-screen overflow-hidden bg-white text-black dark:bg-gray-900 dark:text-white'>
+    <div className='relative overflow-hidden bg-white text-black dark:bg-gray-900 dark:text-white'>
       <header>
         <NavBar />
       </header>
@@ -38,6 +39,7 @@ const App = () => {
         </Routes>
       </main>
       <Toaster position={isMobile ? 'bottom-center' : 'top-center'} />
+      <Footer />
     </div>
   )
 }
