@@ -78,10 +78,10 @@ const CartPage = () => {
             </div>
             <div className='grid gap-12'>{renderedCartItems}</div>
           </div>
-          <div className='flex flex-col items-center gap-4 md:items-start'>
-            <div className='flex items-center gap-2'>
-              <h2 className='text-2xl font-bold md:text-3xl'>Total:</h2>
-              <p className='text-xl md:text-2xl'>{total}$</p>
+          <div className='flex flex-col items-center gap-4 pt-6 md:items-start md:pt-0'>
+            <div className='flex items-center gap-2 text-3xl font-bold'>
+              <h2>Total:</h2>
+              <p>{total}$</p>
             </div>
             <Button lg onClick={handleOrder}>
               Make an Order

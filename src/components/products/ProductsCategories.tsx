@@ -44,7 +44,7 @@ const ProductsCategories = () => {
           Categories
         </h2>
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
-        <div className='relative mt-6 flex min-h-[10rem] flex-col justify-around gap-4 md:grid md:grid-flow-col md:gap-6'>
+        <div className='relative mt-6 flex min-h-[10rem] flex-col justify-around gap-4 lg:grid lg:grid-flow-col lg:gap-6'>
           {isLoading || isFetching ? (
             <ReactLoading
               type='bars'
@@ -64,7 +64,7 @@ const ProductsCategories = () => {
                 <img
                   src={allCategories}
                   alt='all categories'
-                  className='h-[4rem] w-full rounded-lg object-cover md:h-[10rem] md:w-[10rem] lg:h-[12rem] lg:w-[12rem]'
+                  className='h-[4rem] w-full rounded-lg object-cover md:h-[6rem] lg:h-[12rem] lg:w-[12rem] xl:w-[24rem]'
                   loading='lazy'
                 />
               </div>
@@ -79,7 +79,7 @@ const ProductsCategories = () => {
                   <img
                     src={images[category as keyof Images]}
                     alt={category}
-                    className='h-[4rem] w-full rounded-lg object-cover md:h-[10rem] md:w-[10rem] lg:h-[12rem] lg:w-[12rem]'
+                    className='h-[4rem] w-full rounded-lg object-cover md:h-[6rem] lg:h-[12rem] lg:w-[12rem] xl:w-[24rem]'
                     loading='lazy'
                   />
                 </div>

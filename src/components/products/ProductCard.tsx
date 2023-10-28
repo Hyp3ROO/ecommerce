@@ -11,7 +11,7 @@ type ProductProps = {
 const ProductCard = ({ product }: ProductProps) => {
   const { addProductToCart } = useStoreContext()
   return (
-    <div className='flex flex-col items-center justify-center rounded-lg py-6'>
+    <div className='flex flex-col items-center rounded-lg'>
       <Link
         to={`/product/${product?.title.replace('/', '')}`}
         className='duration-200 hover:scale-105'>
@@ -20,9 +20,11 @@ const ProductCard = ({ product }: ProductProps) => {
           alt={product?.title}
           className='h-[12rem] rounded-lg bg-white object-contain p-4 md:h-[20rem]'
           loading='lazy'
+          width={300}
+          height={200}
         />
       </Link>
-      <div className='flex flex-col items-center text-center'>
+      <div className='flex flex-col place-items-center text-center md:grid md:grid-rows-[85px_minmax(5px,_1fr)_70px]'>
         <Link
           to={`/product/${product?.title.replace('/', '')}`}
           className='duration-200 hover:text-blue-500'>
@@ -37,7 +39,7 @@ const ProductCard = ({ product }: ProductProps) => {
           />
           ({product?.rating.count})
         </p>
-        <p className='my-2 font-bold'>{`${product?.price}$`}</p>
+        <p className='my-2 text-2xl font-bold'>{`${product?.price}$`}</p>
         <Button lg onClick={() => addProductToCart(product)}>
           Add to Cart
         </Button>

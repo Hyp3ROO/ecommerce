@@ -27,7 +27,7 @@ const FeaturedProduct = ({ featuredProduct }: FeaturedProductProps) => {
           height={200}
         />
       </Link>
-      <div>
+      <div className='grid grid-rows-[150px_minmax(5px,_1fr)_50px] place-items-center md:grid-rows-[80px_minmax(5px,_1fr)_50px]'>
         <Link
           to={`/product/${featuredProduct?.title.replace('/', '')}`}
           className='duration-200 hover:text-blue-500'>
@@ -44,7 +44,7 @@ const FeaturedProduct = ({ featuredProduct }: FeaturedProductProps) => {
           />
           ({featuredProduct?.rating.count})
         </p>
-        <p className='my-2 text-lg font-bold'>{`${featuredProduct?.price}$`}</p>
+        <p className='my-2 text-2xl font-bold'>{`${featuredProduct?.price}$`}</p>
         <Button lg onClick={handleClick}>
           Add to Cart
         </Button>

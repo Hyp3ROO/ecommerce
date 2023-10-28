@@ -55,7 +55,7 @@ const CartItem = ({ cartItem }: CartItemProps) => {
           </h3>
         </Link>
         <Select quantity={quantity} handleChange={e => handleChange(e)} />
-        <p className='font-bold'>{`${cartItem?.price}$`}</p>
+        <p className='text-2xl font-bold'>{`${cartItem?.price}$`}</p>
       </div>
       <button className='group' onClick={handleDeleteClick}>
         <BsFillTrashFill className='text-xl text-blue-500 duration-200 group-hover:scale-110 group-hover:text-blue-700 md:text-2xl' />

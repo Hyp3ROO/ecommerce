@@ -23,7 +23,7 @@ const ProductsList = () => {
         </h2>
         <div className='rounded-br-full rounded-bl-full bg-blue-500 p-1.5 md:w-32 md:rounded-bl-none' />
       </div>
-      <div className='relative grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-12'>
+      <div className='relative grid grid-cols-1 gap-12 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-12 2xl:grid-cols-5'>
         {isLoading || isFetching ? (
           <ReactLoading
             type='bars'

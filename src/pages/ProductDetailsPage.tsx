@@ -81,7 +81,7 @@ const ProductDetailsPage = () => {
                 />
                 ({productDetails?.rating.count})
               </p>
-              <p className='my-2 text-lg font-bold md:text-xl'>{`${productDetails?.price}$`}</p>
+              <p className='my-2 text-2xl font-bold'>{`${productDetails?.price}$`}</p>
               <p className='mb-6 text-sm'>{productDetails?.description}</p>
               <Select
                 quantity={quantity}
