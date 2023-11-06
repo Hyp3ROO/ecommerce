@@ -32,14 +32,14 @@ const MobileList = ({
         navBarIsOpen ? 'fixed' : 'hidden'
       } inset-0 flex min-h-screen flex-col items-center justify-evenly bg-white/95 dark:bg-gray-900/95 md:hidden`}>
       <Link to='/' onClick={() => setNavBarIsOpen(false)}>
-        <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
+        <li className='group flex items-center justify-center p-4 text-xl duration-200 hover:text-blue-700'>
           <AiFillHome className='mr-3 text-blue-500 duration-200 group-hover:text-blue-700' />
           Home
         </li>
       </Link>
       <Link to='/cart' onClick={() => setNavBarIsOpen(false)}>
-        <li className='group relative flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
-          <ImCart className='mr-3 text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
+        <li className='group relative flex items-center justify-center p-4 text-xl duration-200 hover:text-blue-700'>
+          <ImCart className='mr-3 text-xl text-blue-500 duration-200 group-hover:text-blue-700' />
           Cart
           <span className='absolute top-0.5 -right-1 grid h-5 w-5 place-items-center rounded-full bg-blue-500 text-sm text-black duration-200'>
             {cartItems.length}
@@ -77,7 +77,7 @@ const MobileList = ({
       ) : (
         <>
           <Link to='/orders' onClick={() => setNavBarIsOpen(false)}>
-            <li className='group relative flex items-center justify-center p-4 text-xl duration-200 hover:scale-110 hover:text-blue-700'>
+            <li className='group relative flex items-center justify-center p-4 text-xl duration-200 hover:text-blue-700'>
               <GoTasklist className='mr-3 text-xl text-blue-500 duration-200 group-hover:text-blue-700 md:text-2xl' />
               Orders
             </li>

@@ -55,8 +55,8 @@ const NavBar = () => {
             location.pathname === '/sign-up') &&
           'hidden'
         }`}>
-        <Link to='/'>
-          <h1 className='text-lg font-bold duration-200 hover:text-blue-500 md:text-2xl'>
+        <Link to='/' className='group p-2 md:p-0'>
+          <h1 className='text-lg font-bold duration-200 group-hover:text-blue-500 md:text-2xl'>
             E-COM
           </h1>
         </Link>

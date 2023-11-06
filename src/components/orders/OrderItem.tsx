@@ -23,7 +23,7 @@ const OrderItem = ({ orderDetails }: OrderItemProps) => {
         <img
           src={orderDetails.image}
           alt={orderDetails.title}
-          className='h-[4rem] rounded-lg bg-white object-contain p-4 md:h-[8rem]'
+          className='h-[6rem] rounded-lg bg-white object-contain p-4'
           loading='lazy'
         />
         <span className='pt-1 font-bold'>{`x${orderDetails.quantity}`}</span>

@@ -15,7 +15,7 @@ const FeaturedProduct = ({ featuredProduct }: FeaturedProductProps) => {
   }
 
   return (
-    <div className='flex flex-col rounded-lg py-12 px-6 md:grid md:grid-cols-2 md:place-items-center md:py-6'>
+    <div className='md:grid-cols-2 flex flex-col gap-2 rounded-lg py-12 px-6 md:grid md:place-items-center md:py-6'>
       <Link
         to={`/product/${featuredProduct?.title.replace('/', '')}`}
         className='duration-200 hover:scale-105'>
@@ -27,7 +27,7 @@ const FeaturedProduct = ({ featuredProduct }: FeaturedProductProps) => {
           height={200}
         />
       </Link>
-      <div className='grid grid-rows-[150px_minmax(5px,_1fr)_50px] place-items-center md:grid-rows-[80px_minmax(5px,_1fr)_50px]'>
+      <div className='grid grid-rows-[120px_minmax(5px,_1fr)_50px] place-items-center md:grid-rows-[80px_minmax(5px,_1fr)_50px]'>
         <Link
           to={`/product/${featuredProduct?.title.replace('/', '')}`}
           className='duration-200 hover:text-blue-500'>

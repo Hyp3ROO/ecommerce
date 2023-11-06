@@ -5,7 +5,11 @@ module.exports = {
     fontFamily: {
       sans: ['Poppins', 'sans-serif'],
     },
-    extend: {},
+    extend: {
+      gridTemplateColumns: {
+        fill: 'repeat(auto-fill, 80px)',
+      },
+    },
   },
   darkMode: 'class',
   plugins: [],

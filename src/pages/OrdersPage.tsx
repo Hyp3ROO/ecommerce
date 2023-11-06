@@ -27,8 +27,8 @@ const OrdersPage = () => {
     }
 
     return (
-      <Fragment key={order.id}>
-        <div className='flex flex-col items-center gap-4 text-center lg:grid lg:grid-flow-col lg:gap-24 lg:px-24'>
+      <div key={order.id} className='grid gap-6'>
+        <div className='flex flex-col items-center gap-4 text-center'>
           <p className='font-bold'>Order: #{order.id}</p>
           <p className='text-xl font-bold'>Total: {order.total}$</p>
           <p>Ordered: {orderDate}</p>
@@ -45,12 +45,12 @@ const OrdersPage = () => {
               Expand your orders
             </button>
           )}
-          <div className='w-full rounded-br-full rounded-bl-full bg-blue-500 p-1.5 lg:hidden' />
+          <div className='w-full rounded-br-full rounded-bl-full bg-blue-500 p-1.5' />
         </div>
-        <div className='flex flex-wrap items-center justify-center gap-8 md:gap-16'>
+        <div className='grid grid-cols-fill justify-center gap-6'>
           {isExpanded && <OrderItem orderDetails={order.orderDetails} />}
         </div>
-      </Fragment>
+      </div>
     )
   })
 
@@ -59,7 +59,7 @@ const OrdersPage = () => {
       <h2 className='mb-12 text-center text-3xl font-bold uppercase tracking-widest'>
         Your Orders
       </h2>
-      <div className='grid place-items-center justify-center gap-6 text-center lg:gap-16'>
+      <div className='grid gap-16 text-center md:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4'>
         {renderedOrders.length > 0 ? (
           renderedOrders
         ) : (
