@@ -16,6 +16,7 @@ const useGetProducts = (selectedCategory: string) => {
       }
     },
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   })
 }
 export default useGetProducts

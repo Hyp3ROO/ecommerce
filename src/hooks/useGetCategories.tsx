@@ -6,6 +6,7 @@ const useGetCategories = () => {
     queryKey: ['categories'],
     queryFn: getCategories,
     refetchOnWindowFocus: false,
+    refetchOnMount: false,
   })
 }
 export default useGetCategories
